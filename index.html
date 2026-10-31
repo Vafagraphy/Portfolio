@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<!-- نوع سند را HTML5 اعلام می‌کند -->
+<html lang="fa" dir="rtl" data-theme="light">
+<!-- زبان پیش‌فرض فارسی و جهت صفحه راست‌به‌چپ است؛ جاوااسکریپت هنگام تغییر زبان این دو مقدار را عوض می‌کند -->
+<head>
+  <!-- شروع بخش اطلاعات فنی صفحه (دیده نمی‌شود) -->
+  <meta charset="utf-8">
+  <!-- کدگذاری UTF-8 برای نمایش درست حروف فارسی -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- برای نمایش درست در موبایل: عرض صفحه برابر عرض دستگاه -->
+  <title>نمونه‌کار — نام شما</title>
+  <!-- عنوان تب مرورگر؛ هنگام تغییر زبان از داخل جاوااسکریپت (آبجکت UI) عوض می‌شود -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- اتصال زودهنگام به سرور فونت گوگل برای سرعت بیشتر -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- اتصال زودهنگام به سرور فایل‌های فونت -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Syne:wght@600;700;800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- فونت‌ها: وزیرمتن برای فارسی، و Syne / Instrument Sans / JetBrains Mono برای انگلیسی -->
+
+  <style>
+    /* ═════════ شروع استایل‌ها (CSS) ═════════ */
+
+    /* ───── متغیرهای رنگ و فونت (برای تغییر ظاهر کل سایت همین‌جا را ویرایش کنید) ───── */
+    :root {
+      --bg: #F3EFE6; --bg2: #E9E4D6; --surface: #FBF9F4;            /* رنگ پس‌زمینه اصلی، پس‌زمینه دوم و رنگ کارت‌ها */
+      --ink: #14130F; --muted: #55504A; --line: rgba(20,19,15,.16); /* رنگ متن اصلی، متن کم‌رنگ و رنگ خط‌های جداکننده */
+      --accent: #E8502E; --accent-ink: #B2321A; --on-accent: #14130F; /* رنگ تاکیدی (نارنجی)، نسخه تیره‌ترش و رنگ متن روی آن */
+      --blue: #3347D9;                                               /* رنگ آبی تزئینی */
+      --shadow: 0 1px 0 rgba(20,19,15,.05), 0 22px 44px -22px rgba(20,19,15,.32); /* سایه کارت‌ها */
+    }
+    html[data-theme="dark"] {                                        /* وقتی تم تیره فعال است، همین متغیرها مقدار دیگری می‌گیرند */
+      --bg: #0D0F15; --bg2: #12151D; --surface: #171A24;             /* پس‌زمینه‌های تیره */
+      --ink: #F1EDE3; --muted: #A9AAA6; --line: rgba(241,237,227,.16); /* متن و خطوط روشن */
+      --accent: #FF6A45; --accent-ink: #FF8D6F;                      /* تاکیدی روشن‌تر برای خوانایی روی تیره */
+      --blue: #8896FF;                                               /* آبی روشن‌تر */
+      --shadow: 0 1px 0 rgba(255,255,255,.04), 0 24px 48px -24px rgba(0,0,0,.8); /* سایه عمیق‌تر */
+    }
+    html[lang="fa"] {                                                /* فونت‌ها وقتی زبان فارسی است */
+      --display: 'Vazirmatn', Tahoma, system-ui, sans-serif;         /* فونت تیترها */
+      --body: 'Vazirmatn', Tahoma, system-ui, sans-serif;            /* فونت متن عادی */
+      --mono: 'Vazirmatn', Tahoma, monospace;                        /* فونت برچسب‌های ریز */
+    }
+    html[lang="en"] {                                                /* فونت‌ها وقتی زبان انگلیسی است */
+      --display: 'Syne', 'Arial Black', system-ui, sans-serif;       /* فونت تیترها */
+      --body: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif; /* فونت متن */
+      --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;      /* فونت برچسب‌ها */
+    }
+    html[lang="fa"] * { letter-spacing: 0 !important; text-transform: none !important; } /* در فارسی فاصله بین حروف و حروف بزرگ نباید اعمال شود (حروف فارسی به هم می‌چسبند) */
+
+    /* ───── تنظیمات پایه ───── */
+    *, *::before, *::after { box-sizing: border-box; }               /* padding و border داخل عرض/ارتفاع حساب شوند */
+    html { scroll-behavior: smooth; }                                /* اسکرول نرم هنگام کلیک روی لینک‌های داخلی */
+    body { margin: 0; font-family: var(--body); font-size: 17px; line-height: 1.6; background: var(--bg); color: var(--ink); -webkit-font-smoothing: antialiased; transition: background-color .45s, color .45s; } /* حاشیه صفر، فونت، اندازه، رنگ‌ها و انیمیشن تغییر تم */
+    html[lang="fa"] body { line-height: 1.9; }                       /* فاصله خطوط فارسی بیشتر باشد تا خوانا بماند */
+    a { color: inherit; text-decoration: none; }                     /* لینک‌ها رنگ متن اطراف را بگیرند و خط زیر نداشته باشند */
+    h1, h2, h3, p, ul, dl, dd { margin: 0; padding: 0; }             /* حذف فاصله‌های پیش‌فرض مرورگر */
+    ul { list-style: none; }                                         /* حذف نقطه‌های لیست */
+    button { font: inherit; color: inherit; cursor: pointer; }       /* دکمه‌ها فونت و رنگ متن اطراف را بگیرند */
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; } /* خط دور المان هنگام ناوبری با کیبورد */
+    svg { display: block; direction: ltr; }                          /* آیکون‌ها بلوکی شوند و جهتشان چپ‌به‌راست بماند */
+    [hidden] { display: none !important; }                           /* المانی که hidden دارد حتماً مخفی شود */
+
+    .wrap { max-width: 1280px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 48px); } /* ظرف مرکزی با حداکثر عرض و حاشیه‌های واکنش‌گرا */
+    .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); display: flex; gap: 12px; align-items: center; } /* برچسب کوچک بالای تیتر */
+    .eyebrow b { font-weight: 500; color: var(--accent-ink); }       /* شماره بخش با رنگ تاکیدی */
+    .ph { border-bottom: 1px dashed var(--accent-ink); }             /* متن‌های جایگزین [کروشه‌ای] با خط‌چین مشخص می‌شوند؛ کلاس ph را از متن واقعی خود بردارید */
+    .h2 { font-family: var(--display); font-weight: 700; font-size: clamp(2.1rem, 5vw, 3.6rem); line-height: 1.05; letter-spacing: -.025em; text-wrap: balance; } /* تیترهای بزرگ بخش‌ها */
+    html[lang="fa"] .h2, html[lang="fa"] .hero h1 { line-height: 1.4; } /* تیتر فارسی فاصله خط بیشتری می‌خواهد */
+    .skip { position: absolute; inset-inline-start: 12px; top: -80px; background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 8px; z-index: 100; transition: top .2s; } /* لینک «پرش به محتوا» ابتدا بیرون صفحه است */
+    .skip:focus { top: 12px; }                                       /* با فوکوس کیبورد وارد صفحه می‌شود */
+    .arr { display: inline-block; }                                  /* فلش‌های متنی قابل چرخش باشند */
+    html[dir="rtl"] .arr, html[dir="rtl"] .flip { transform: scaleX(-1); } /* در حالت راست‌به‌چپ فلش‌ها برعکس می‌شوند */
+
+    /* ───── دکمه‌ها ───── */
+    .btn { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px; font-weight: 600; font-size: 15px; border: 1.5px solid var(--ink); background: transparent; color: var(--ink); transition: transform .25s, background-color .25s, color .25s, border-color .25s; } /* دکمه گرد توخالی */
+    .btn:hover { transform: translateY(-2px); background: var(--ink); color: var(--bg); } /* هاور: کمی بالا می‌رود و رنگ‌ها وارونه می‌شوند */
+    .btn-primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); } /* دکمه اصلی با رنگ تاکیدی */
+    .btn-primary:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); } /* هاور دکمه اصلی */
+    .ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; } /* استایل همه آیکون‌های خطی */
+    .btn .ic { width: 18px; height: 18px; }                          /* آیکون داخل دکمه کمی کوچک‌تر */
+
+    /* ───── هدر (نوار بالا) ───── */
+    .hdr { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 84%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); } /* هدر چسبیده به بالا با پس‌زمینه شیشه‌ای */
+    .bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; padding-top: env(safe-area-inset-top, 0px); } /* ردیف هدر: لوگو در یک سو، ابزارها در سوی دیگر */
+    .logo { display: flex; align-items: center; gap: 12px; }          /* لوگو + نام کنار هم */
+    .logo svg { width: 38px; height: 38px; transition: transform .5s cubic-bezier(.2,.8,.2,1); } /* اندازه آیکون لوگو و انیمیشن */
+    .logo:hover svg { transform: rotate(-12deg) scale(1.06); }       /* هاور: کمی می‌چرخد */
+    .logo-name { font-family: var(--display); font-weight: 800; font-size: 19px; line-height: 1.2; display: block; } /* نام شما در هدر */
+    .logo-sub { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); display: block; } /* زیرنویس کوچک زیر نام */
+    .tools { display: flex; align-items: center; gap: 8px; }         /* گروه منو و دکمه‌ها */
+    .nav { display: flex; align-items: center; gap: 4px; }           /* منوی اصلی در دسکتاپ */
+    .nav a { position: relative; padding: 10px 14px; font-weight: 500; font-size: 15px; } /* هر لینک منو */
+    .nav a::after { content: ''; position: absolute; inset-inline: 14px; bottom: 5px; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .3s; } /* خط زیرین که با هاور باز می‌شود */
+    html[dir="rtl"] .nav a::after { transform-origin: right; }       /* در راست‌به‌چپ خط از سمت راست باز شود */
+    .nav a:hover::after, .nav a:focus-visible::after { transform: scaleX(1); } /* نمایش کامل خط هنگام هاور */
+    .icon-btn { min-width: 46px; height: 46px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; border: 1.5px solid var(--line); background: transparent; transition: border-color .25s, transform .25s; } /* دکمه‌های گرد هدر (تم، منو، زبان) */
+    .icon-btn:hover { border-color: var(--ink); transform: rotate(14deg); } /* هاور: کمی کج می‌شود */
+    .lang-btn { padding: 0 14px; gap: 8px; font-family: var(--mono); font-size: 13px; font-weight: 600; } /* دکمه تغییر زبان کمی عریض‌تر است چون متن دارد */
+    .lang-btn:hover { transform: none; }                              /* دکمه زبان نچرخد */
+    html[data-theme="light"] .i-sun { display: none; }               /* در تم روشن آیکون خورشید مخفی است */
+    html[data-theme="dark"] .i-moon { display: none; }               /* در تم تیره آیکون ماه مخفی است */
+    .menu-btn { display: none; }                                      /* دکمه منوی همبرگری فقط در موبایل */
+    .menu-btn[aria-expanded="true"] .i-menu { display: none; }       /* وقتی منو باز است آیکون همبرگر مخفی شود */
+    .menu-btn:not([aria-expanded="true"]) .i-x { display: none; }    /* وقتی بسته است آیکون ضربدر مخفی شود */
+    @media (max-width: 819px) {                                       /* ── استایل موبایل و تبلت ── */
+      .menu-btn { display: inline-flex; }                             /* نمایش دکمه منو */
+      .nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 8px clamp(16px, 4vw, 48px) 20px; background: var(--bg); border-bottom: 1px solid var(--line); } /* منو به صورت کشویی زیر هدر */
+      .nav[data-open="true"] { display: flex; }                       /* با باز شدن منو نمایش داده شود */
+      .nav a { padding: 16px 4px; font-size: 20px; font-family: var(--display); font-weight: 700; border-top: 1px solid var(--line); min-height: 52px; } /* لینک‌های بزرگ‌تر در موبایل */
+      .nav a::after { display: none; }                                /* خط زیرین در موبایل لازم نیست */
+      .logo-sub { display: none; }                                    /* زیرنویس لوگو در موبایل مخفی شود تا جا باشد */
+    }
+
+    /* ───── بخش اصلی صفحه (Hero) ───── */
+    .hero { padding: clamp(28px, 5vw, 64px) 0 clamp(40px, 6vw, 80px); } /* فاصله بالا و پایین */
+    .hero-grid { display: grid; gap: clamp(28px, 4vw, 64px); grid-template-columns: minmax(0, 1fr); align-items: center; } /* در موبایل یک ستون */
+    @media (min-width: 960px) { .hero-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } } /* در دسکتاپ دو ستون: متن و تصویر */
+    .hero h1 { font-family: var(--display); font-weight: 800; font-size: clamp(2.4rem, 5.6vw, 4.2rem); line-height: 1.05; letter-spacing: -.035em; margin: 22px 0 24px; } /* تیتر اصلی */
+    .hero h1 span { display: block; }                                 /* هر خط تیتر در یک سطر */
+    .cut-word { color: var(--accent-ink); text-decoration: underline dashed var(--accent); text-decoration-thickness: 3px; text-underline-offset: .15em; } /* کلمه «برش» با خط‌چین */
+    .lede { max-width: 46ch; color: var(--muted); font-size: 1.1rem; } /* پاراگراف معرفی */
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; } /* ردیف دکمه‌ها */
+    .disc-list { margin-top: 44px; border-top: 1px solid var(--line); } /* لیست رشته‌ها زیر دکمه‌ها */
+    .disc { display: grid; grid-template-columns: 40px 1fr auto; align-items: center; gap: 8px; min-height: 52px; border-bottom: 1px solid var(--line); transition: padding .3s, color .25s; } /* هر ردیف: شماره، عنوان، فلش */
+    .disc:hover, .disc:focus-visible { padding-inline-start: 10px; color: var(--accent-ink); } /* هاور: کمی جابه‌جا و رنگی */
+    .disc .n { font-family: var(--mono); font-size: 12px; color: var(--muted); } /* شماره ردیف */
+    .disc .t { font-family: var(--display); font-weight: 700; font-size: 1.05rem; } /* عنوان ردیف */
+    .hero-art { width: 100%; max-width: 680px; justify-self: center; } /* قاب تصویر هیرو */
+    .hero-art svg { width: 100%; height: auto; overflow: visible; }  /* تصویر هیرو واکنش‌گرا */
+    .f-ink { fill: var(--ink); } .f-bg { fill: var(--bg); } .f-acc { fill: var(--accent); } .f-blue { fill: var(--blue); } .f-surface { fill: var(--surface); } /* کلاس‌های رنگ‌آمیزی SVG با متغیرهای تم */
+    .s-line { stroke: var(--line); } .s-blue { stroke: var(--blue); } /* کلاس‌های رنگ خط SVG */
+    .cutline { fill: none; stroke: var(--accent); stroke-width: 1.6; } /* خط برش لیزر */
+    .grain { fill: none; stroke: #8C5F2E; stroke-width: 1.2; opacity: .3; } /* رگه‌های چوب */
+    .spark { fill: none; stroke: #fff; stroke-width: 4.5; stroke-linecap: round; stroke-dasharray: 1.2 98.8; animation: run 6s linear infinite; } /* جرقه سفید لیزر که روی مسیر می‌دود */
+    .layer { opacity: 0; animation: rise .9s cubic-bezier(.2,.8,.2,1) forwards; } /* هر لایه تصویر هیرو با انیمیشن ظاهر می‌شود */
+    .l2 { animation-delay: .2s; } .l3 { animation-delay: .35s; } .l4 { animation-delay: .5s; } /* تاخیر ظاهر شدن لایه‌ها */
+    .float { animation: floaty 7s ease-in-out infinite; }            /* شناور بودن مکعب */
+    @keyframes run { to { stroke-dashoffset: -100; } }               /* حرکت جرقه */
+    @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } } /* بالا و پایین رفتن */
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } } /* ظاهر شدن از پایین */
+    @keyframes slide { to { transform: translateX(-50%); } }         /* حرکت نوار متحرک */
+    @keyframes trace { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } } /* رسم شدن خط برش */
+
+    /* ───── نوار متحرک ───── */
+    .band { direction: ltr; border-block: 1px solid var(--line); overflow: hidden; background: var(--bg2); } /* جهت چپ‌به‌راست تا انیمیشن در RTL خراب نشود */
+    .band-track { display: flex; width: max-content; animation: slide 38s linear infinite; } /* ریل متحرک */
+    .band:hover .band-track { animation-play-state: paused; }        /* با هاور متوقف می‌شود */
+    .band-set { display: flex; align-items: center; flex-shrink: 0; } /* یک دسته از کلمات */
+    .band-item { font-family: var(--display); font-weight: 700; font-size: clamp(1.1rem, 2.4vw, 1.6rem); padding: 20px 0; white-space: nowrap; } /* هر کلمه */
+    .band-dot { width: 10px; height: 10px; margin: 0 28px; background: var(--accent); border-radius: 50%; flex-shrink: 0; } /* نقطه بین کلمات */
+
+    /* ───── بخش پروژه‌ها ───── */
+    .section { padding: clamp(64px, 9vw, 120px) 0; scroll-margin-top: 72px; } /* فاصله هر بخش؛ scroll-margin برای جا ماندن زیر هدر */
+    .proj-head { display: grid; gap: 20px; align-items: end; margin-bottom: 36px; } /* سربرگ بخش پروژه‌ها */
+    @media (min-width: 900px) { .proj-head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } } /* دو ستون در دسکتاپ */
+    .proj-note { color: var(--muted); max-width: 46ch; }              /* توضیح کوچک کنار تیتر */
+    .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; } /* ردیف دکمه‌های فیلتر */
+    .chip { display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 20px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--surface); font-weight: 600; font-size: 15px; transition: background-color .25s, color .25s, border-color .25s, transform .25s; } /* دکمه فیلتر */
+    .chip .k { font-family: var(--mono); font-size: 11px; color: var(--muted); } /* شماره داخل دکمه فیلتر */
+    .chip:hover { border-color: var(--ink); transform: translateY(-2px); } /* هاور فیلتر */
+    .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); } /* فیلتر فعال */
+    .chip[aria-pressed="true"] .k { color: var(--accent); }          /* شماره فیلتر فعال */
+    .count { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 26px; min-height: 20px; } /* متن «نمایش X از Y» */
+    /* ───── کارت‌های پروژه (شبکه یکدست و واکنش‌گرا) ───── */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 24px; } /* ستون‌ها خودکار بر اساس عرض صفحه ساخته می‌شوند */
+    .pcard { position: relative; display: flex; flex-direction: column; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow); transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .3s; animation: rise .6s cubic-bezier(.2,.8,.2,1) both; } /* خود کارت */
+    .pcard:hover, .pcard:focus-within { transform: translateY(-5px); border-color: color-mix(in srgb, var(--ink) 45%, transparent); } /* هاور کارت */
+    @media (min-width: 900px) { .pcard.feat { grid-column: span 2; } .pcard.feat .pc-cover { aspect-ratio: 16 / 9; } } /* پروژه ویژه (featured) دو برابر عرض می‌گیرد */
+    .pc-open { position: absolute; inset: 0; z-index: 3; width: 100%; background: transparent; border: 0; border-radius: 20px; cursor: pointer; } /* دکمه نامرئی روی کل کارت؛ کلیک = باز شدن پنجره پروژه */
+    .pc-cover { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--bg2); } /* قاب عکس روی کارت */
+    .pc-cover img, .pc-cover video { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s cubic-bezier(.2,.8,.2,1); } /* عکس بدون کشیدگی */
+    .pcard:hover .pc-cover img, .pcard:hover .pc-cover video { transform: scale(1.05); } /* هاور: کمی زوم */
+    .pc-ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: #fff; font-family: var(--mono); font-size: 12px; } /* جای‌نگهدار وقتی عکسی نیست */
+    .pc-ph .ic { width: 44px; height: 44px; stroke-width: 1.4; } /* آیکون بزرگ جای‌نگهدار */
+    .t-images .pc-ph { background: linear-gradient(135deg, #E8502E, #E9B53D); } /* رنگ جای‌نگهدار گالری */
+    .t-video .pc-ph { background: linear-gradient(135deg, #3347D9, #8896FF); } /* ویدیو */
+    .t-model3d .pc-ph { background: linear-gradient(135deg, #0B0C12, #3A47D6); } /* سه‌بعدی */
+    .t-video .pc-ph { justify-content: flex-end; padding-bottom: 20px; } .t-video .pc-ph .ic { display: none; } /* در ویدیو فقط دکمه پخش وسط می‌ماند */
+    .t-compare .pc-ph, .t-laser .pc-ph { background: linear-gradient(135deg, #C79A5B, #E8502E); } /* قبل/بعد و لیزر */
+    .t-code .pc-ph { background: linear-gradient(135deg, #12141C, #2B36B4); } /* نرم‌افزار */
+    .t-embed .pc-ph { background: linear-gradient(135deg, #1C6B5A, #6EC38A); } /* نمایش زنده */
+    .pc-type, .pc-sample { position: absolute; top: 12px; z-index: 2; display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 11px; padding: 6px 10px; border-radius: 999px; background: rgba(20,19,15,.82); color: #F1EDE3; } /* برچسب‌های روی عکس */
+    .pc-type { inset-inline-start: 12px; } /* برچسب نوع در یک گوشه */
+    .pc-sample { inset-inline-end: 12px; background: var(--accent); color: #14130F; } /* برچسب «نمونه» در گوشه دیگر */
+    .pc-type .ic { width: 14px; height: 14px; } /* آیکون کوچک نوع */
+    .pc-play { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; } /* دکمه پخش روی ویدیوها */
+    .pc-play span { width: 58px; height: 58px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(20,19,15,.7); color: #fff; transition: transform .3s, background-color .3s; } /* دایره پخش */
+    .pc-play .ic { fill: currentColor; stroke: none; width: 24px; height: 24px; } /* مثلث پخش */
+    .pcard:hover .pc-play span { transform: scale(1.1); background: var(--accent); } /* هاور: بزرگ و رنگی */
+    .pc-body { flex: 1; display: flex; flex-direction: column; gap: 8px; padding: 18px 20px 20px; border-top: 1px solid var(--line); } /* بخش متن کارت */
+    .kind { font-family: var(--mono); font-size: 11.5px; color: var(--muted); display: flex; gap: 10px; } /* دسته‌بندی */
+    .kind span { color: var(--accent-ink); } /* شماره دسته */
+    .pc-body h3 { font-family: var(--display); font-weight: 700; font-size: 1.25rem; line-height: 1.4; } /* عنوان */
+    .desc { color: var(--muted); font-size: 15px; } /* توضیح */
+    .pc-body .desc { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; } /* توضیح روی کارت حداکثر ۳ خط */
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; } /* ردیف برچسب‌ها */
+    .tag { font-family: var(--mono); font-size: 11px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); } /* هر برچسب */
+
+    /* ───── پنجره نمایش پروژه (Modal) ───── */
+    .modal { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: clamp(8px, 3vw, 32px); } /* لایه تمام‌صفحه */
+    .modal-back { position: absolute; inset: 0; background: rgba(8,9,13,.74); backdrop-filter: blur(6px); animation: fade .25s both; } /* پرده تیره پشت پنجره */
+    .modal-box { position: relative; width: min(1180px, 100%); max-height: 100%; overflow: auto; display: grid; grid-template-columns: minmax(0, 1fr); background: var(--surface); border: 1px solid var(--line); border-radius: 22px; outline: none; animation: rise .35s both; } /* جعبه اصلی؛ موبایل: بالا نمایشگر، پایین اطلاعات */
+    @media (min-width: 960px) { .modal-box { grid-template-columns: minmax(0, 1fr) 360px; } } /* دسکتاپ: نمایشگر + ستون اطلاعات */
+    .m-close { position: fixed; top: 14px; inset-inline-end: 14px; z-index: 5; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 50%; background: rgba(20,19,15,.85); color: #fff; } /* دکمه بستن */
+    .m-view { min-width: 0; background: #0B0C12; color: #F1EDE3; display: flex; flex-direction: column; justify-content: center; } /* ناحیه نمایش رسانه */
+    .m-empty { aspect-ratio: 4 / 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; text-align: center; color: #A9AEC4; } /* وقتی رسانه‌ای نیست */
+    .m-empty .ic { width: 48px; height: 48px; stroke-width: 1.3; } /* آیکون */
+    .gal { position: relative; direction: ltr; } /* گالری عکس (همیشه چپ‌به‌راست تا دکمه‌ها درست باشند) */
+    .gal-main { position: relative; aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; } /* قاب عکس بزرگ */
+    .gal-main img { max-width: 100%; max-height: 100%; object-fit: contain; } /* کل عکس دیده شود */
+    .gal-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 50%; background: rgba(20,19,15,.72); color: #fff; } /* دکمه‌های قبلی/بعدی */
+    .gal-btn.prev { left: 12px; } .gal-btn.next { right: 12px; } .gal-btn.prev .ic { transform: scaleX(-1); } /* جای دکمه‌ها و برعکس کردن فلش قبلی */
+    .gal-count { position: absolute; bottom: 10px; left: 12px; font-family: var(--mono); font-size: 11px; padding: 4px 10px; border-radius: 999px; background: rgba(20,19,15,.72); } /* شماره عکس */
+    .gal-thumbs { display: flex; gap: 8px; padding: 10px; overflow-x: auto; background: #12141C; } /* ردیف تصاویر کوچک */
+    .gal-thumbs button { flex: 0 0 72px; height: 54px; padding: 0; overflow: hidden; border: 2px solid transparent; border-radius: 8px; background: none; opacity: .6; } /* هر تصویر کوچک */
+    .gal-thumbs button.on { border-color: var(--accent); opacity: 1; } /* تصویر انتخاب‌شده */
+    .gal-thumbs img { width: 100%; height: 100%; object-fit: cover; } /* تصویر کوچک */
+    .vid { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; background: #000; } /* ویدیو و iframe */
+    .mv { position: relative; aspect-ratio: 4 / 3; background: radial-gradient(circle at 50% 35%, #2C3250, #0B0C12); } /* قاب مدل سه‌بعدی */
+    .mv model-viewer { width: 100%; height: 100%; --poster-color: transparent; } /* خود مدل */
+    .mv-hint { position: absolute; bottom: 12px; inset-inline: 12px; text-align: center; font-family: var(--mono); font-size: 11px; color: #A9AEC4; pointer-events: none; } /* راهنمای چرخاندن */
+    .mv-fail { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; background: #0B0C12; color: #F1EDE3; } /* پیام خطا */
+    .cmp { --p: 50%; position: relative; direction: ltr; aspect-ratio: 4 / 3; overflow: hidden; user-select: none; background: #0B0C12; } /* اسلایدر قبل/بعد؛ --p موقعیت خط جداکننده */
+    .cmp img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; } /* هر دو عکس روی هم */
+    .cmp .cmp-b { clip-path: inset(0 calc(100% - var(--p)) 0 0); } /* عکس «قبل» فقط تا خط جداکننده دیده می‌شود */
+    .cmp-line { position: absolute; top: 0; bottom: 0; left: var(--p); width: 2px; background: #fff; transform: translateX(-1px); box-shadow: 0 0 8px rgba(0,0,0,.5); pointer-events: none; } /* خط جداکننده */
+    .cmp-line::after { content: ''; position: absolute; top: 50%; left: 50%; width: 36px; height: 36px; margin: -18px; border-radius: 50%; background: var(--accent); border: 3px solid #fff; } /* دستگیره گرد */
+    .cmp input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; } /* لغزنده نامرئی روی کل عکس (هم موس، هم لمس، هم کیبورد) */
+    .cmp-lab { position: absolute; top: 12px; left: 12px; z-index: 2; font-family: var(--mono); font-size: 11px; padding: 6px 10px; border-radius: 999px; background: rgba(20,19,15,.82); color: #F1EDE3; pointer-events: none; } /* برچسب سمت چپ */
+    .cmp-lab.r { left: auto; right: 12px; background: rgba(251,249,244,.92); color: #14130F; } /* برچسب سمت راست */
+    .m-info { display: flex; flex-direction: column; gap: 14px; min-width: 0; padding: clamp(20px, 3vw, 32px); } /* ستون اطلاعات */
+    .m-info h2 { font-family: var(--display); font-weight: 700; font-size: 1.7rem; line-height: 1.35; } /* عنوان پروژه */
+    .m-info .desc { white-space: pre-line; font-size: 16px; } /* توضیح کامل؛ خط جدید در متن حفظ می‌شود */
+    .m-det { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; padding: 14px 0; border-block: 1px dashed var(--line); font-size: 14.5px; } /* اطلاعات: نقش، سال، ابزار... */
+    .m-det dt { font-family: var(--mono); font-size: 11px; color: var(--muted); padding-top: 3px; } /* عنوان هر اطلاعات */
+    .m-links { display: flex; flex-wrap: wrap; gap: 10px; } /* دکمه‌های لینک */
+    .m-nav { display: flex; justify-content: space-between; gap: 10px; margin-top: auto; padding-top: 10px; } /* قبلی/بعدی پروژه */
+    .m-nav .btn { min-height: 42px; padding: 0 16px; font-size: 14px; } /* دکمه‌های کوچک‌تر */
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } } /* محو شدن پرده */
+    /* کارت نرم‌افزار (پنجره کد) */
+    .art-code { background: var(--bg2); padding: 20px; display: flex; flex-direction: column; gap: 14px; } /* پس‌زمینه ناحیه کد */
+    .win { direction: ltr; background: #12141C; border-radius: 14px; color: #D7DAE6; overflow: hidden; flex: 1 1 auto; box-shadow: 0 18px 36px -20px rgba(0,0,0,.6); } /* پنجره شبیه ویرایشگر (کد همیشه چپ‌به‌راست است) */
+    .win-bar { display: flex; align-items: center; gap: 7px; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,.08); } /* نوار بالای پنجره */
+    .win-bar i { width: 10px; height: 10px; border-radius: 50%; }    /* دایره‌های رنگی */
+    .win-bar i:nth-child(1) { background: #FF6A45; } .win-bar i:nth-child(2) { background: #E9B53D; } .win-bar i:nth-child(3) { background: #6EC38A; } /* رنگ سه دایره */
+    .win-bar span { margin-inline-start: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #9097B0; } /* نام فایل */
+    .code { margin: 0; padding: 16px 0 18px; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.75; white-space: normal; overflow-x: auto; counter-reset: ln; } /* بلوک کد */
+    .cl { display: block; white-space: pre; padding-right: 18px; }   /* هر خط کد */
+    .cl::before { counter-increment: ln; content: counter(ln); display: inline-block; width: 2.4ch; margin: 0 1.6ch 0 14px; text-align: right; color: #8089A8; } /* شماره خط */
+    .in1 { display: inline-block; padding-left: 2ch; } .in2 { display: inline-block; padding-left: 4ch; } /* تورفتگی خطوط */
+    .ck { color: #8FA0FF; } .cf { color: #FFB86B; } .cc { color: #8A92AD; } .cn { color: #FF8D6F; } /* رنگ کلمه‌های کلیدی، تابع، کامنت و نوع */
+    .stack { display: flex; flex-wrap: wrap; gap: 8px; }             /* ردیف برچسب‌های تکنولوژی */
+
+
+    /* ───── بخش درباره من ───── */
+    .about { background: var(--bg2); border-block: 1px solid var(--line); } /* پس‌زمینه متفاوت */
+    .about-grid { display: grid; gap: clamp(32px, 5vw, 72px); grid-template-columns: minmax(0, 1fr); } /* موبایل: یک ستون */
+    @media (min-width: 900px) { .about-grid { grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); } } /* دسکتاپ: عکس و متن */
+    .portrait { max-width: 420px; width: 100%; }                     /* قاب عکس شخصی */
+    .portrait svg { width: 100%; height: auto; }                     /* عکس واکنش‌گرا */
+    .portrait img { width: 100%; border-radius: 22px; }              /* اگر به‌جای SVG عکس واقعی گذاشتید */
+    .about h2 { margin: 18px 0 26px; }                               /* فاصله تیتر درباره من */
+    .about p { max-width: 62ch; color: var(--muted); font-size: 1.05rem; } /* متن معرفی */
+    .about p + p { margin-top: 16px; }                               /* فاصله بین پاراگراف‌ها */
+    .about p strong { color: var(--ink); font-weight: 600; }         /* نام پررنگ */
+    .skills { display: grid; gap: 28px 24px; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); margin-top: 56px; } /* ستون‌های مهارت */
+    .skills h3 { font-family: var(--display); font-weight: 700; font-size: 1.1rem; padding-bottom: 12px; border-bottom: 2px solid var(--ink); display: flex; justify-content: space-between; align-items: baseline; } /* عنوان هر دسته مهارت */
+    .skills h3 span { font-family: var(--mono); font-size: 11px; color: var(--accent-ink); font-weight: 500; } /* شماره دسته */
+    .skills li { padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 15px; color: var(--muted); } /* هر مهارت */
+    .two { display: grid; gap: 40px; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); margin-top: 56px; } /* دستاوردها و علایق */
+    .two h3 { font-family: var(--mono); font-size: 12px; color: var(--muted); font-weight: 500; margin-bottom: 14px; } /* عنوان کوچک */
+    .wins li { display: grid; grid-template-columns: 76px 1fr; gap: 12px; padding: 14px 0; border-top: 1px solid var(--line); font-size: 15.5px; } /* هر دستاورد: سال + متن */
+    .wins li span:first-child { font-family: var(--mono); font-size: 12px; color: var(--accent-ink); padding-top: 3px; } /* سال */
+    .interests { display: flex; flex-wrap: wrap; gap: 10px; }        /* برچسب‌های علایق */
+    .interests li { padding: 9px 16px; border: 1.5px solid var(--line); border-radius: 999px; background: var(--surface); font-size: 15px; transition: border-color .25s, transform .25s; } /* هر علاقه */
+    .interests li:hover { border-color: var(--ink); transform: translateY(-2px) rotate(-1.5deg); } /* هاور علاقه */
+
+    /* ───── بخش تماس (همیشه تیره) ───── */
+    .contact { background: #0A0B10; color: #F1EDE3; position: relative; overflow: hidden; padding-bottom: 0; } /* پس‌زمینه تیره ثابت */
+    .contact .eyebrow { color: #A9ABB4; } .contact .eyebrow b { color: #FF8D6F; } /* رنگ برچسب بالای تیتر */
+    .contact .ph { border-color: #FF8D6F; }                          /* خط‌چین جایگزین‌ها */
+    .contact-grid { display: grid; gap: clamp(36px, 5vw, 72px); grid-template-columns: minmax(0, 1fr); } /* موبایل: یک ستون */
+    @media (min-width: 900px) { .contact-grid { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); } } /* دسکتاپ: دو ستون */
+    .contact .h2 { font-size: clamp(2.4rem, 6.4vw, 5rem); margin: 18px 0 22px; } /* تیتر بزرگ‌تر */
+    .contact .h2 em { font-style: normal; color: #FF8D6F; }          /* کلمه رنگی در تیتر */
+    .contact .lead { color: #B4B6BE; max-width: 52ch; }              /* متن توضیح */
+    .mail { direction: ltr; unicode-bidi: isolate; display: inline-block; margin-top: 30px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: clamp(1.3rem, 3.4vw, 2.1rem); border-bottom: 3px solid #FF6A45; padding-bottom: 4px; transition: color .25s; word-break: break-all; } /* ایمیل بزرگ (همیشه چپ‌به‌راست) */
+    .mail:hover { color: #FF8D6F; }                                  /* هاور ایمیل */
+    .contact .cta { margin-top: 28px; }                              /* فاصله دکمه‌ها */
+    .contact .btn { color: #F1EDE3; border-color: rgba(241,237,227,.45); } /* دکمه‌های روی زمینه تیره */
+    .contact .btn:hover { background: #F1EDE3; color: #0A0B10; border-color: #F1EDE3; } /* هاور دکمه */
+    .contact .btn-primary { background: #FF6A45; border-color: #FF6A45; color: #14130F; } /* دکمه اصلی */
+    .contact .btn-primary:hover { background: #F1EDE3; border-color: #F1EDE3; color: #14130F; } /* هاور دکمه اصلی */
+    .status { min-height: 24px; margin-top: 14px; font-family: var(--mono); font-size: 12px; color: #A9ABB4; } /* پیام کپی/دانلود */
+    .social h3 { font-family: var(--mono); font-size: 12px; color: #A9ABB4; font-weight: 500; margin-bottom: 8px; } /* عنوان «شبکه‌های اجتماعی» */
+    .social a { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; min-height: 64px; border-bottom: 1px solid rgba(241,237,227,.16); font-family: var(--display); font-weight: 700; font-size: 1.15rem; transition: padding .3s, color .25s; } /* هر ردیف شبکه اجتماعی */
+    .social a:hover { padding-inline-start: 10px; color: #FF8D6F; }  /* هاور */
+    .s-main { display: flex; align-items: center; gap: 14px; }       /* آیکون + نام */
+    .s-main .ic { width: 24px; height: 24px; }                       /* اندازه آیکون شبکه */
+    .social small { display: block; direction: ltr; text-align: start; font-family: 'JetBrains Mono', monospace; font-weight: 400; font-size: 11.5px; color: #A9ABB4; } /* آی‌دی کاربری (انگلیسی) */
+    .foot { margin-top: clamp(56px, 8vw, 96px); padding: 24px 0 30px; border-top: 1px solid rgba(241,237,227,.16); display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; align-items: center; font-size: 14px; color: #A9ABB4; } /* فوتر */
+    .foot a { color: #F1EDE3; font-weight: 600; }                    /* لینک‌های فوتر */
+    .foot a:hover { color: #FF8D6F; }                                /* هاور لینک فوتر */
+    .foot-social { display: flex; gap: 10px; }                       /* ردیف آیکون‌های شبکه در فوتر */
+    .foot-social a { width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid rgba(241,237,227,.3); border-radius: 50%; transition: background-color .25s, color .25s; } /* دکمه گرد آیکون */
+    .foot-social a:hover { background: #F1EDE3; color: #0A0B10; }    /* هاور آیکون */
+    .kerf-deco { position: absolute; inset-inline-end: -80px; top: -60px; width: 420px; opacity: .3; pointer-events: none; } /* طرح تزئینی گوشه */
+    .contact .wrap { position: relative; z-index: 1; }               /* محتوا روی طرح تزئینی */
+
+    @media (prefers-reduced-motion: reduce) {                         /* کاربرانی که انیمیشن نمی‌خواهند */
+      *, *::before, *::after { animation: none !important; transition: none !important; } /* همه انیمیشن‌ها خاموش */
+      .layer { opacity: 1; }                                          /* ولی لایه‌های هیرو دیده شوند */
+    }
+    
+    .portrait {
+      position: relative;
+    }
+
+    .portrait-frame {
+      position: relative;
+      overflow: visible;
+      border-radius: 22px;
+      background: var(--surface);
+      border: 1.5px solid var(--ink);
+      box-shadow: 18px 18px 0 var(--accent);
+    }
+
+    .portrait-photo {
+      display: block;
+      width: 100%;
+      aspect-ratio: 372 / 472;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 4px solid white;
+      box-sizing: border-box;
+    }
+
+  
+    /* ───── نوار درصد مهارت‌ها ───── */
+    .skills li { display: block; }                                    /* هر مهارت یک بلوک شامل نام + نوار */
+    .sk-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 8px; } /* ردیف نام مهارت و درصد */
+    .sk-pct { font-family: var(--mono); font-size: 12px; color: var(--ink); } /* عدد درصد */
+    .sk-track { position: relative; height: 8px; border-radius: 999px; background: var(--line); overflow: visible; } /* ریل نوار */
+    .sk-fill { position: relative; height: 100%; width: 0; border-radius: 999px; background: var(--c, var(--accent)); transition: width 1.2s cubic-bezier(.2,.8,.2,1); } /* پرشونده؛ رنگ از متغیر --c (رنگ هر مهارت در آرایه SKILLS) */
+    .sk-gold .sk-fill { background: linear-gradient(90deg, #B8860B, #FFD700, #FFF1A8, #FFD700, #B8860B); background-size: 200% 100%; animation: goldshine 2.4s linear infinite; box-shadow: 0 0 10px rgba(255,205,60,.75); } /* ۱۰۰٪: نوار طلایی درخشان */
+    .sk-gold .sk-pct { color: #E0A800; font-weight: 700; }            /* درصد ۱۰۰ طلایی */
+    .sk-gold .sk-name::after { content: ' ★'; color: #E0A800; }       /* ستاره کنار نام مهارت کامل */
+    .sk-gold .sk-fill i { position: absolute; inset-inline-end: 4px; top: 50%; width: 4px; height: 4px; border-radius: 50%; background: #FFD84A; box-shadow: 0 0 6px #FFC400; opacity: 0; animation: spark 2.2s ease-out infinite; } /* ذره‌های طلایی (۵ عدد، سبک) */
+    .sk-gold .sk-fill i:nth-child(2) { animation-delay: .45s; margin-inline-end: 14px; } /* تاخیر و جای متفاوت ذره دوم */
+    .sk-gold .sk-fill i:nth-child(3) { animation-delay: .9s; margin-inline-end: 6px; } /* ذره سوم */
+    .sk-gold .sk-fill i:nth-child(4) { animation-delay: 1.35s; margin-inline-end: 22px; } /* ذره چهارم */
+    .sk-gold .sk-fill i:nth-child(5) { animation-delay: 1.8s; margin-inline-end: 10px; } /* ذره پنجم */
+    @keyframes goldshine { to { background-position: -200% 0; } }    /* حرکت برق طلایی روی نوار */
+    @keyframes spark { 0% { opacity: 0; transform: translate(0, 0) scale(1); } 15% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--dx, 6px), -22px) scale(.3); } } /* ذره بالا می‌رود و محو می‌شود */
+    .sk-gold .sk-fill i:nth-child(odd) { --dx: -8px; }                /* ذره‌های فرد کمی به یک سمت می‌روند */
+  </style>
+</head>
+<body id="top">
+  <!-- شروع بدنه صفحه؛ id="top" مقصد لینک «بازگشت به بالا» است -->
+
+  <a class="skip" href="#main" data-fa="پرش به محتوا" data-en="Skip to content"></a>
+  <!-- لینک دسترس‌پذیری برای ناوبری با کیبورد. نکته: هر المانی که data-fa و data-en دارد، متنش را جاوااسکریپت بر اساس زبان انتخابی می‌گذارد؛ برای تغییر متن‌ها همین دو ویژگی را ویرایش کنید -->
+
+    <!-- ═════════ هدر ═════════ -->
+    <header class="hdr">
+      <!-- نوار بالای سایت که هنگام اسکرول ثابت می‌ماند -->
+      <div class="wrap bar">
+        <!-- ظرف مرکزی و ردیف افقی هدر -->
+        <a class="logo" href="#top" data-fa-label="امیرحسین وفادار مقدم" data-en-label="Your Name — back to top">
+          
+          <!-- 🖼️ عکس لوگوی جدید شما همراه با انیمیشن چرخش و بزرگ‌نمایی موقع هاور موس -->
+          <img src="Myself/Profile.png" alt="لوگو" class="logo-img"> 
+
+          <span>
+            <span class="logo-name" data-fa="امیرحسین وفادار مقدم" data-en="Your Name"></span>
+            <!-- نام شما در هدر -->
+            <span class="logo-sub" data-fa="طراحی . تدوین . مدلسازی . کدنویسی" data-en="design · editing . codding . modeling"></span>
+            <!-- شعار کوچک زیر نام -->
+          </span>
+        </a>
+        <div class="tools">
+
+
+    <!-- 🎨 کدهای استایل (CSS) اختصاصی برای انیمیشن لوگو -->
+    <style>
+      /* استایل اولیه عکس لوگو */
+      .logo-img {
+        border-radius: 38%;
+        width: 50px;                  /* عرض لوگو برابر با اندازه قبلی */
+        height: 50px;                 /* ارتفاع لوگو برابر با اندازه قبلی */
+        /* object-fit: contain;          حفظ تناسب و عدم دفرمه شدن عکس */
+        transition: transform 0.4s ease; /* ایجاد حالت نرم و روان برای انیمیشن (0.4 ثانیه) */
+      }
+
+      /* افکت زیبا هنگام قرار گرفتن موس روی لوگو (Hover) */
+      .logo:hover .logo-img {
+        transform: scale(1.15) rotate(8deg); /* بزرگ‌تر شدن اندازه تا ۱۵ درصد و چرخش ۸ درجه‌ای به سمت راست */
+      }
+    </style>
+        <!-- گروه منو و دکمه‌های هدر -->
+        <nav class="nav" id="site-nav" data-open="false" data-fa-label="منوی اصلی" data-en-label="Primary">
+          <!-- منوی اصلی؛ data-open با دکمه منو در موبایل true/false می‌شود -->
+          <a href="#about" data-fa="درباره من" data-en="About"></a>
+          <!-- لینک به بخش درباره من -->
+          <a href="#projects" data-fa="نمونه‌کارها" data-en="Work"></a>
+          <!-- لینک به بخش پروژه‌ها -->
+          <a href="#contact" data-fa="تماس" data-en="Contact"></a>
+          <!-- لینک به بخش تماس -->
+        </nav>
+        <button class="icon-btn lang-btn" id="lang-btn" type="button">
+          <!-- دکمه تغییر زبان فارسی ⇄ انگلیسی؛ متن و aria-label آن را جاوااسکریپت می‌گذارد -->
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"></circle><path d="M2.5 12h19M12 2.5c2.6 2.7 4 5.9 4 9.5s-1.4 6.8-4 9.5c-2.6-2.7-4-5.9-4-9.5s1.4-6.8 4-9.5z"></path></svg>
+          <!-- آیکون کره زمین -->
+          <span id="lang-label"></span>
+          <!-- برچسب زبان مقصد (EN یا فا) -->
+        </button>
+        <button class="icon-btn" id="theme-btn" type="button">
+          <!-- دکمه تم روشن/تیره -->
+          <svg class="ic i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7Z"></path></svg>
+          <!-- آیکون ماه -->
+          <svg class="ic i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"></circle><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"></path></svg>
+          <!-- آیکون خورشید -->
+        </button>
+        <button class="icon-btn menu-btn" id="menu-btn" type="button" aria-controls="site-nav" aria-expanded="false" data-fa-label="منو" data-en-label="Menu">
+          <!-- دکمه منوی موبایل -->
+          <svg class="ic i-menu" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"></path></svg>
+          <!-- آیکون همبرگر -->
+          <svg class="ic i-x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+          <!-- آیکون بستن -->
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- محتوای اصلی صفحه -->
+   <!-- ═════════ هیرو ═════════ -->
+    <section class="hero">
+      <!-- بخش اول صفحه -->
+      <div class="wrap hero-grid">
+        <!-- شبکه دو ستونه: متن + تصویر -->
+        <div class="hero-copy">
+          <!-- ستون متن -->
+          <p class="eyebrow" data-fa="<b>00</b> نمونه‌کار  <span class='ph'></span>" data-en="<b>00</b> Portfolio <span class='ph'></span>"></p>
+          <!-- برچسب بالای تیتر -->
+          <h1>
+            <!-- تیتر اصلی در دو خط -->
+            <span data-fa="جایی میان" data-en="Where"></span>
+            <!-- خط اول -->
+            <span data-fa="<span class='cut-word'>هنر و منطق</span> " data-en="<span class='cut-word'>Art</span> Meets <span class='cut-word'>Logic</span>"></span>
+            <!-- خط دوم با کلمه ویژه -->
+          </h1>
+          <p class="lede" data-fa="<span class='ph'>من امیرحسین وفادار مقدم هستم؛</span> <br>  طراح گرافیک و دانشجوی مهندسی کامپیوتر.<br> اینجا بخشی از مسیر، تجربه‌ها و ساخته‌های من را می‌بینید." data-en="<span class='ph'>I'm Amir Hossein Vafadar Moghaddam</span> <br>  Graphic Designer & Software engineering student <br> This portfolio brings together my journey, experience, and work in progress."></p>
+          <!-- متن معرفی کوتاه -->
+          <div class="cta">
+            <!-- ردیف دکمه‌ها -->
+            <a class="btn btn-primary" href="#projects"><span data-fa="مشاهده نمونه‌کارها" data-en="See the work"></span><svg class="ic flip" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+            <!-- دکمه اصلی؛ آیکون فلش در حالت فارسی برعکس می‌شود -->
+            <a class="btn" href="#contact" data-fa="در تماس باشید" data-en="Get in touch"></a>
+            <!-- دکمه دوم -->
+          </div>
+          <ul class="disc-list" id="disc-list"></ul>
+          <!-- لیست رشته‌ها؛ از آرایه CATEGORIES در جاوااسکریپت ساخته می‌شود -->
+        </div>
+        <div class="hero-art">
+          <!-- ستون تصویر هیرو -->
+          <svg viewBox="0 0 640 680" role="img" aria-label="Illustration">
+            <!-- تصویر تزئینی: ورق چوب با برش لیزر، بوم وکتور، مکعب و پنجره کد -->
+            <defs>
+              <!-- تعریف الگوها و جلوه‌ها -->
+              <pattern id="hdots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" fill="#55504A" opacity=".45"></circle></pattern>
+              <!-- الگوی نقطه‌چین پس‌زمینه -->
+              <linearGradient id="wood" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E6C795"></stop><stop offset="1" stop-color="#C79A5B"></stop></linearGradient>
+              <!-- گرادیان رنگ چوب -->
+              <filter id="soft" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="16" stdDeviation="14" flood-color="#000" flood-opacity=".28"></feDropShadow></filter>
+              <!-- سایه نرم -->
+            </defs>
+            <rect x="4" y="4" width="632" height="672" rx="30" fill="url(#hdots)"></rect>
+            <!-- پس‌زمینه نقطه‌دار -->
+            <g class="layer">
+              <!-- لایه ۱: ورق چوب -->
+              <g transform="rotate(3 380 370)" filter="url(#soft)">
+                <!-- ورق کمی کج با سایه -->
+                <rect x="170" y="150" width="420" height="440" rx="16" fill="url(#wood)"></rect>
+                <!-- بدنه چوب -->
+                <path class="grain" d="M178 205 C260 188 340 222 420 202 S540 214 584 198"></path>
+                <path class="grain" d="M178 262 C250 250 350 280 430 258 S530 262 584 252"></path>
+                <path class="grain" d="M178 560 C270 544 330 574 430 554 S540 566 584 550"></path>
+                <!-- سه رگه چوب -->
+                <circle cx="250" cy="262" r="28" class="f-bg"></circle><circle cx="250" cy="262" r="28" class="cutline"></circle>
+                <!-- سوراخ گرد بریده‌شده -->
+                <path d="M295 500 V345 A85 85 0 0 1 465 345 V500 Z" class="f-bg"></path><path d="M295 500 V345 A85 85 0 0 1 465 345 V500 Z" class="cutline"></path>
+                <!-- طاق بریده‌شده -->
+                <path d="M295 500 V345 A85 85 0 0 1 465 345 V500 Z" pathLength="100" class="spark"></path>
+                <!-- جرقه لیزر که دور طاق می‌دود -->
+              </g>
+            </g>
+            <g class="layer l2">
+              <!-- لایه ۲: بوم طراحی وکتور -->
+              <g class="float">
+                <!-- شناور -->
+                <rect x="30" y="70" width="260" height="240" rx="14" class="f-surface s-line" stroke-width="1"></rect>
+                <!-- کاغذ سفید بوم -->
+                <path d="M66 262 C62 168 140 114 212 142 C272 166 258 250 192 272 C142 288 70 306 66 262 Z" class="f-acc" opacity=".92"></path>
+                <!-- شکل نارنجی -->
+                <path d="M54 286 C108 118 198 334 266 118" fill="none" class="s-blue" stroke-width="2.6" stroke-linecap="round"></path>
+                <!-- منحنی بزیه آبی -->
+                <rect x="49" y="281" width="10" height="10" class="f-surface s-blue" stroke-width="1.8"></rect><rect x="261" y="113" width="10" height="10" class="f-surface s-blue" stroke-width="1.8"></rect>
+                <!-- نقاط کنترل منحنی -->
+                <circle cx="52" cy="92" r="6" class="f-acc"></circle><circle cx="72" cy="92" r="6" class="f-blue"></circle><circle cx="92" cy="92" r="6" class="f-ink"></circle>
+                <!-- سه نمونه رنگ -->
+              </g>
+            </g>
+            <g class="layer l3">
+              <!-- لایه ۳: مکعب سه‌بعدی -->
+              <g class="float" filter="url(#soft)">
+                <polygon points="500,52 554,83 500,114 446,83" fill="#9AA7FF"></polygon>
+                <polygon points="446,83 500,114 500,176 446,145" fill="#4D5DE6"></polygon>
+                <polygon points="500,114 554,83 554,145 500,176" fill="#2A36A8"></polygon>
+                <!-- سه وجه مکعب (بالا، چپ، راست) -->
+              </g>
+            </g>
+            <g class="layer l4">
+              <!-- لایه ۴: پنجره کد -->
+              <g filter="url(#soft)">
+                <rect x="300" y="525" width="312" height="135" rx="12" fill="#12141C"></rect>
+                <!-- بدنه پنجره -->
+                <circle cx="322" cy="545" r="4.5" fill="#FF6A45"></circle><circle cx="338" cy="545" r="4.5" fill="#E9B53D"></circle><circle cx="354" cy="545" r="4.5" fill="#6EC38A"></circle>
+                <!-- سه دایره رنگی -->
+                <text x="322" y="580" font-size="12.5" font-family="JetBrains Mono, monospace" fill="#8FA0FF">const <tspan fill="#D7DAE6">kerf = </tspan><tspan fill="#FF8D6F">0.1</tspan><tspan fill="#D7DAE6">;</tspan></text>
+                <text x="322" y="600" font-size="12.5" font-family="JetBrains Mono, monospace" fill="#D7DAE6">laser.<tspan fill="#FFB86B">run</tspan>(cut);</text>
+                <text x="322" y="620" font-size="12.5" font-family="JetBrains Mono, monospace" fill="#8A92AD">// ready to cut</text>
+                <!-- سه خط کد نمایشی -->
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════ درباره من ═════════ -->
+    <section class="section about" id="about" aria-labelledby="about-title">
+      <div class="wrap">
+        <div class="about-grid">
+          <div class="portrait">
+        <div class="portrait-frame">
+          <img
+            src="Myself/Amir.png"
+            alt="امیر، طراح گرافیک و دانشجوی مهندسی کامپیوتر"
+            class="portrait-photo"
+          />
+        </div>
+      </div>
+          <div>
+            <p class="eyebrow" data-fa="<b>01</b> درباره من" data-en="<b>01</b> About"></p>
+            <h2 class="h2" id="about-title" data-fa="جایی میان هنر و منطق" data-en="I make things that start as pixels and end up in your hands."></h2>
+
+          <p
+            data-fa="سلام، من <strong class='ph'>امیرحسین وفادار مقدم</strong> ؛ ۲۳ ساله و ساکن کاشمر. <br> به دو دنیای <span class='ph'>گرافیک و مهندسی کامپیوتر</span> علاقه دارم؛ دو حوزه‌ای که برای من در نقطه‌ای مشترک به هم می‌رسند: <span class='ph'>خلق کردن <br></span>از طراحی و تصویرسازی تا برنامه‌نویسی، ساخت وب‌سایت و کار با ابزارهای دیجیتال، هدفم تبدیل ایده‌ها به تجربه‌ها و محصولات واقعی است. تجربه کار با دستگاه‌های برش و حکاکی لیزری نیز این پیوند میان دنیای دیجیتال و فیزیکی را برایم ملموس‌تر کرده است.
+
+این پورتفولیو بخشی از مسیر یادگیری، تجربه و خلاقیت من است؛ <br> <span class='ph'>جایی میان هنر و منطق، طراحی و فناوری.</span>"
+            data-en="Hi, I'm <strong class='ph'>Amirhossein Vafadar Moghadam</strong>. I'm passionate about two worlds: <span class='ph'>graphic design and computer engineering</span>—two different fields that meet at one point for me: <span class='ph'>creating</span>. Whether it's designing an image and shaping a visual idea, or writing code to build a website or application, what motivates me is bringing ideas to life and turning them into something that once existed only in my mind. To me, creativity isn't limited to visuals, and logic is more than a set of rules; together, they can create new experiences. This portfolio is part of my journey of exploring, learning, and building—<span class='ph'>where art meets logic.</span>"
+          ></p>
+          </div>
+        </div>
+
+        <div class="skills" id="skills"></div>
+        <!-- ظرف مهارت‌ها؛ محتوا و درصدها از آرایه SKILLS در اسکریپت ساخته می‌شود -->
+
+        <div class="two">
+          <div>
+            <h3 data-fa="دستاوردها و نکات برجسته" data-en="Highlights &amp; achievements"></h3>
+            <ul class="wins">
+              <!-- هر li: سال + شرح دستاورد -->
+              <li><span data-fa="1405" data-en="2026"></span><span class="ph" data-fa="دریافت مدرک فوق دیپلم گرافیک (بزودی)" data-en="[Award, exhibition, publication or milestone — add only what's true]"></span></li>
+              <li><span data-fa="1404" data-en="2025"></span><span class="ph" data-fa="دریافت مدرک تدوین ویدئو" data-en="[Degree, certification or training]"></span></li>
+              <li><span data-fa="1404" data-en="2025"></span><span class="ph" data-fa="دریافت مدرک فوتوشاپ" data-en="[Something you shipped or launched]"></span></li>
+              <li><span data-fa="1401" data-en="2022"></span><span class="ph" data-fa="دریافت مدرک بین المللی فوتوشاپ [ICDL]" data-en="[Something you shipped or launched]"></span></li>
+            </ul>
+          </div>
+          <div>
+            <h3 data-fa="علایق" data-en="Interests"></h3>
+            <ul class="interests">
+              <li><span class="ph" data-fa="طراحی و نقاشی" data-en="Drawing and Painting"></span></li><li><span class="ph" data-fa="موسیقی" data-en="Music"></span></li><li><span class="ph" data-fa="فیلم و سریال" data-en="Movie"></span></li><li><span class="ph" data-fa="گیم" data-en="Game"></span></li><li><span class="ph" data-fa="چایی" data-en="Tea"></span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+   
+
+    <!-- ═════════ نوار متحرک ═════════ -->
+    <div class="band" aria-hidden="true"><div class="band-track" id="band-track"></div></div>
+    <!-- محتوای نوار را جاوااسکریپت از روی CATEGORIES می‌سازد -->
+
+    <!-- ═════════ پروژه‌ها ═════════ -->
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <!-- بخش نمونه‌کارها -->
+      <div class="wrap">
+        <div class="proj-head">
+          <!-- سربرگ: تیتر + توضیح -->
+          <div>
+            <p class="eyebrow" data-fa="<b>02</b> منتخب کارها" data-en="<b>02</b> Selected work"></p>
+            <h2 class="h2" id="projects-title" style="margin-top:16px" data-fa="چهار شیوه‌ی ساختن، یک نگاه." data-en="Four ways of making, one point of view."></h2>
+          </div>
+          <!-- <p class="proj-note" data-fa="متن" data-en="The cards below are <strong>samples</strong>. To add or remove projects, edit the PORTFOLIO_ITEMS array in this file's script."></p> -->
+          <!-- یادآوری برای خودتان: این متن را پیش از انتشار تغییر دهید یا حذف کنید -->
+        </div>
+        <div class="filters" id="filters" role="group"></div>
+        <!-- دکمه‌های فیلتر دسته‌بندی (ساخته‌شده با جاوااسکریپت) -->
+        <p class="count" id="count" aria-live="polite"></p>
+        <!-- متن تعداد پروژه‌های نمایش‌داده‌شده -->
+        <div class="grid" id="grid"></div>
+        <!-- کارت‌ها اینجا از آرایه PORTFOLIO_ITEMS ساخته می‌شوند -->
+      </div>
+    </section>
+
+    <!-- ═════════ تماس ═════════ -->
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <!-- بخش تماس و شبکه‌های اجتماعی -->
+      <svg class="kerf-deco" viewBox="0 0 420 420" aria-hidden="true">
+        <!-- طرح تزئینی خط‌چین‌های برش -->
+        <path d="M60 380 V200 A150 150 0 0 1 360 200 V380 Z" fill="none" stroke="#FF6A45" stroke-width="1.5" stroke-dasharray="6 7"></path>
+        <path d="M110 380 V215 A100 100 0 0 1 310 215 V380 Z" fill="none" stroke="#8896FF" stroke-width="1.5" stroke-dasharray="6 7"></path>
+        <circle cx="210" cy="260" r="30" fill="none" stroke="#FF6A45" stroke-width="1.5" stroke-dasharray="6 7"></circle>
+      </svg>
+      <div class="wrap">
+        <div class="contact-grid">
+          <div>
+            <p class="eyebrow" data-fa="<b>03</b> ارتباط با من" data-en="<b>03</b> Contact"></p>
+            <h2 class="h2" id="contact-title" data-fa="ایده‌ای برای<em><br>ساختن </em> داری؟" data-en="Have something to <em>make?</em>"></h2>
+            <p class="lead"><span class="ph" data-fa="برای آشنایی بیشتر و همکاری در شبکه های اجتماعی با من در ارتباط باشید." data-en="[Replace: what you take on, how you like to be contacted, and your typical reply time.]"></span></p>
+            <a class="mail" id="mail-link" href="#">loyalamir1382@gmail.com</a>
+            <!-- ایمیل بزرگ؛ مقدار واقعی از SITE.email در اسکریپت جایگزین می‌شود -->
+            <div class="cta">
+              <a class="btn btn-primary" id="mail-btn" href="#"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg><span data-fa="ارسال ایمیل" data-en="Send an email"></span></a>
+              <!-- دکمه ارسال ایمیل -->
+              <button class="btn" id="copy-btn" type="button"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg><span data-fa="کپی نشانی" data-en="Copy address"></span></button>
+              <!-- دکمه کپی ایمیل -->
+              <button class="btn" id="resume-btn" type="button"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"></path></svg><span data-fa="دانلود رزومه" data-en="Download resume"></span></button>
+              <!-- دکمه دانلود رزومه (فعلاً فایل نمونه) -->
+            </div>
+            <p class="status" id="status" role="status" aria-live="polite"></p>
+            <!-- پیام وضعیت کپی/دانلود -->
+          </div>
+          <div class="social">
+            <h3 data-fa="شبکه‌های اجتماعی" data-en="Social"></h3>
+            <ul id="social-list"></ul>
+            <!-- ردیف‌های تلگرام، اینستاگرام و ایتا از آرایه SOCIALS ساخته می‌شود -->
+          </div>
+        </div>
+        <footer class="foot">
+          <!-- فوتر -->
+          <!-- <span data-fa="© <span class='ph'>[سال]</span> <span class='ph'>[نام شما]</span>. متن‌های داخل [کروشه] نمونه‌اند؛ پیش از انتشار جایگزین کنید." data-en="© <span class='ph'>[YEAR]</span> <span class='ph'>[YOUR NAME]</span>. Placeholder content in [brackets] — replace before publishing."></span> -->
+          <div class="foot-social" id="foot-social"></div>
+          <!-- آیکون‌های گرد شبکه‌های اجتماعی (از همان آرایه SOCIALS) -->
+          <a href="#top"><span data-fa="بازگشت به بالا" data-en="Back to top"></span> <span class="arr" style="transform:rotate(-90deg)">→</span></a>
+          <!-- لینک بازگشت به بالا -->
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═════════ پنجره نمایش پروژه (با جاوااسکریپت پر و باز می‌شود) ═════════ -->
+  <div class="modal" id="modal" hidden>
+    <!-- لایه تمام‌صفحه؛ تا وقتی hidden دارد دیده نمی‌شود -->
+    <div class="modal-back" data-close></div>
+    <!-- پرده تیره؛ کلیک روی آن پنجره را می‌بندد -->
+    <button class="m-close" type="button" data-close aria-label="Close"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+    <!-- دکمه بستن -->
+    <div class="modal-box" id="m-box" role="dialog" aria-modal="true" aria-labelledby="m-title" tabindex="-1">
+      <!-- جعبه اصلی -->
+      <div class="m-view" id="m-view"></div>
+      <!-- نمایشگر رسانه (گالری، ویدیو، مدل سه‌بعدی، قبل/بعد، کد) -->
+      <div class="m-info" id="m-info"></div>
+      <!-- عنوان، توضیح، اطلاعات و لینک‌ها -->
+    </div>
+  </div>
+  <script>
+  /* ═════════ شروع جاوااسکریپت ═════════ */
+  (function () {                                                      // کل کد داخل یک تابع بسته است تا آرایه پروژه‌ها از بیرون (کنسول مرورگر) در دسترس بازدیدکننده نباشد
+    'use strict';                                                     // حالت سخت‌گیر: خطاهای احتمالی زودتر دیده می‌شوند
+
+    /* ───────── ۱) تنظیمات کلی سایت (فقط شما اینجا را ویرایش می‌کنید) ───────── */
+    const SITE = {                                                    // آبجکت تنظیمات
+      email: 'loyalamir1382@gmail.com',                                     // ایمیل شما
+      defaultLang: 'fa'                                               // زبان پیش‌فرض: fa = فارسی، en = انگلیسی
+    };
+
+    /* ───────── ۲) دسته‌بندی‌ها (برای فیلتر و لیست رشته‌ها) ───────── */
+    const CATEGORIES = [                                              // آرایه دسته‌ها؛ ترتیب = شماره نمایش داده‌شده
+      { key: 'all',      fa: 'همه',            en: 'All' },            // «همه» همیشه اول باشد
+      { key: 'graphic',  fa: 'طراحی گرافیک',   en: 'Graphic design' }, // دسته گرافیک
+      { key: 'software', fa: 'نرم‌افزار',      en: 'Software' },       // دسته نرم‌افزار
+      { key: 'd3',       fa: 'سه‌بعدی',        en: '3D modeling' },    // دسته سه‌بعدی
+      { key: 'laser',    fa: 'برش لیزری',      en: 'Laser cutting' },  // دسته لیزر
+      { key: 'video',    fa: 'ویدیو و موشن',   en: 'Video & motion' }  // دسته ویدیو (پریمیر، افترافکت)
+    ];
+
+    /* ───────── ۳) پروژه‌ها — مثل پر کردن یک فرم ─────────
+       برای افزودن پروژه: یک آبجکت { ... } را کپی کنید، فیلدهایش را پر کنید و بین بقیه بگذارید.
+       ⚠️ بعد از هر آبجکت ویرگول «,» بگذارید. فیلدی که لازم ندارید را پاک کنید.
+       خطاها و فیلدهای ناقص در کنسول مرورگر (F12) به فارسی/انگلیسی هشدار داده می‌شوند.
+
+       ── فیلدهای مشترک ──
+         id        : شناسه یکتا (انگلیسی، بدون فاصله)
+         type      : روش نمایش (هر نوع کار، نمایشگر مخصوص خودش را دارد):
+                     'images'  = گالری عکس           (گرافیک، پوستر، لوگو، عکس محصول)
+                     'video'   = ویدیو               (پریمیر، موشن؛ فایل mp4 یا لینک یوتیوب / آپارات / ویمئو)
+                     'model3d' = مدل سه‌بعدی چرخان   (خروجی GLB از بلندر)
+                     'compare' = اسلایدر قبل / بعد
+                     'laser'   = مثل compare با برچسب «فایل وکتور / محصول نهایی»
+                     'code'    = نرم‌افزار           (اسکرین‌شات، تکه کد، لینک)
+                     'embed'   = نمایش زنده از سایت دیگر (Sketchfab، Figma، CodePen ...)
+         category  : graphic | software | d3 | laser | video   (دسته‌ها را در CATEGORIES عوض می‌کنید)
+         featured  : true = کارت بزرگ‌تر (اختیاری)
+         titleFa / titleEn : عنوان  |  descFa / descEn : توضیح (اگر انگلیسی را خالی بگذارید فارسی نشان داده می‌شود)
+         tags / tagsEn : آرایه برچسب‌ها
+         roleFa / roleEn ، clientFa / clientEn ، year ، tools : اطلاعات اختیاری
+         cover     : عکس روی کارت (اختیاری؛ وگرنه خودکار از رسانه ساخته می‌شود)
+         url / demo / repo : لینک‌های اختیاری (مشاهده پروژه / نسخه زنده / کد منبع)
+         sample    : true = برچسب «نمونه» (وقتی پروژه واقعی شد پاکش کنید)
+
+       ── فیلدهای مخصوص هر نوع ──
+         images        : images: ['a.jpg', 'b.jpg']
+         video         : video: 'clip.mp4'  یا  'https://www.youtube.com/watch?v=...' / 'https://www.aparat.com/v/...'  ، poster: 'p.jpg' (اختیاری)
+         model3d       : model: 'chair.glb' ، poster: 'chair.jpg' (اختیاری)
+         compare/laser : before: 'a.jpg' ، after: 'b.jpg'
+         code          : snippet: `کد شما` (چندخطی با بک‌تیک) ، file: 'main.py' ، images: [...] (اختیاری)
+         embed         : embed: 'https://...' ، ratio: '16/9' (اختیاری)
+
+       ── فایل‌ها ──
+         مسیرهایی که با http یا / شروع نشوند، خودکار به MEDIA_DIR وصل می‌شوند؛ یعنی کافی است فایل‌ها را در پوشه media کنار index.html بگذارید و فقط نام فایل را بنویسید.
+         ⚠️ ویدیو و مدل سه‌بعدی فقط روی هاست (یا لوکال‌هاست) کار می‌کنند، نه با دابل‌کلیک روی فایل HTML. */
+    const MEDIA_DIR = 'media/';                                       // پوشه عکس‌ها، ویدیوها و مدل‌ها (نسبت به index.html)
+    const MODEL_VIEWER_SRC = 'https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js'; // کتابخانه نمایش مدل سه‌بعدی؛ اگر CDN فیلتر بود فایلش را دانلود و مسیر محلی بگذارید
+    const TYPES = ['images', 'video', 'model3d', 'compare', 'laser', 'code', 'embed']; // نوع‌های مجاز
+
+    const PORTFOLIO_ITEMS = [                                         // ← آرایه پروژه‌ها
+      { id: 'poster-1', type: 'images', category: 'graphic', sample: true,                // نمونه گرافیک: گالری عکس
+        titleFa: '[عنوان مجموعه پوستر]', titleEn: '[Poster series title]',
+        descFa: '[موضوع کار، ایده پشت طراحی و مسئولیت شما.]', descEn: '[The brief, the idea behind the artwork and your responsibility.]',
+        tags: ['فتوشاپ', 'ایلاستریتور'], tagsEn: ['Photoshop', 'Illustrator'],
+        roleFa: 'طراح', roleEn: 'Designer', year: '۱۴۰۴', tools: 'Photoshop, Illustrator',
+        images: [] },                                                 // مثال: ['poster1.jpg', 'poster2.jpg']
+
+      { id: 'video-1', type: 'video', category: 'video', sample: true,                    // نمونه ویدیو (پریمیر)
+        titleFa: '[عنوان ویدیو]', titleEn: '[Video title]',
+        descFa: '[موضوع ویدیو، نقش شما در تدوین، رنگ و صدا.]', descEn: '[What the video is, your role in editing, color and sound.]',
+        tags: ['پریمیر', 'تدوین'], tagsEn: ['Premiere', 'Editing'],
+        roleFa: 'تدوینگر', roleEn: 'Editor', year: '۱۴۰۴', tools: 'Premiere Pro',
+        video: '' },                                                  // مثال: 'clip.mp4' یا 'https://www.aparat.com/v/abc123'
+
+      { id: 'model-1', type: 'model3d', category: 'd3', sample: true,                     // نمونه سه‌بعدی (بلندر)، قابل چرخش
+        titleFa: '[عنوان مدل سه‌بعدی]', titleEn: '[3D model title]',
+        descFa: '[چه چیزی مدل کردید و با چه تکنیکی.]', descEn: '[What you modeled and how.]',
+        tags: ['بلندر'], tagsEn: ['Blender'],
+        tools: 'Blender',
+        model: 'Seprator' },                                                  // مثال: 'chair.glb'  (در بلندر: File ▸ Export ▸ glTF 2.0 (.glb))
+
+      { id: 'laser-1', type: 'laser', category: 'laser', sample: true,                    // نمونه لیزر: قبل/بعد
+        titleFa: '[نام محصول]', titleEn: '[Product name]',
+        descFa: '[متریال، ضخامت و مسئله‌ای که طراحی باید حل می‌کرد.]', descEn: '[Material, thickness and the problem the design had to solve.]',
+        tags: ['لیزر CO₂', 'MDF'], tagsEn: ['CO₂ laser', 'MDF'],
+        tools: 'LightBurn',
+        before: '', after: '' },                                       // مثال: before: 'vector.jpg', after: 'final.jpg'
+
+      { id: 'present-assist', type: 'code', category: 'software', featured: true,        // پروژه واقعی شما: نرم‌افزار
+        titleFa: 'دستیار ارائه', titleEn: 'Presentation Assistant',
+        descFa: 'کنترل ارائه از روی تلفن همراه ، زوم کردن ، پن کردن ، مدیریت اسلاید و...', descEn: 'Manage your presentation by your smartphone , Zoom , Pan , Slide management',
+        tags: ['HTML + Python', 'هوش مصنوعی Claude'], tagsEn: ['HTML + Python', 'Claude AI'],
+        roleFa: 'طراح', roleEn: 'Designer', tools: 'HTML, Python, Claude AI',
+        url: 'https://drive.google.com/drive/folders/1N6FU2_gcG3QkoU9hf1KEEKEm5WOaFqfO?usp=sharing',
+        images: ['Presentation assistance.png'] } // اگر اسکرین‌شات داشتید: images: ['shot1.png']
+    ];
+
+    /* ───────── مهارت‌ها (نوار درصد) — فقط شما اینجا را ویرایش می‌کنید ─────────
+       level : درصد از ۰ تا ۱۰۰ (اگر ۱۰۰ شود نوار طلایی و درخشان با ذره‌های طلایی می‌شود)
+       color : رنگ نوار (هر کد رنگ CSS)؛ اگر ننویسید رنگ تاکیدی سایت استفاده می‌شود
+       برای افزودن مهارت یک آبجکت جدید در items بگذارید؛ برای افزودن دسته، یک آبجکت جدید در SKILLS. */
+    const SKILLS = [
+      { title: { fa: 'طراحی گرافیک', en: 'Graphic design' }, items: [
+        { name: { fa: 'فتوشاپ', en: 'Photoshop' }, level: 100, color: '#3347D9' },
+        { name: { fa: 'ایلاستریتور', en: 'Illustrator' }, level: 75, color: '#E05214'  },
+         ] },
+      { title: { fa: 'برنامه‌نویسی و وب', en: 'Software' }, items: [
+        { name: { fa: 'HTML & CSS & JS', en: 'HTML & CSS & JS' }, level: 20, color: '#2ED9E8' },
+        { name: { fa: 'پایتون', en: 'Python' }, level: 35, color: '#FAF204' },
+         ] },
+      { title: { fa: 'مدل‌سازی', en: '3D modeling' }, items: [
+        { name: { fa: 'بلندر', en: 'Blender' }, level: 60, color: '#EA700C' },
+        { name: { fa: 'کورل', en: 'Modeling' }, level: 80, color: '#12E423' },
+         ] },
+      { title: { fa: 'ویدئو و موشن', en: 'Laser fabrication' }, items: [
+        { name: { fa: 'پریمیر', en: 'CO₂ laser' }, level: 85, color: '#6907A7' },
+        { name: { fa: 'افتر افکت', en: 'Wood & MDF' }, level: 0, color: '#C79A5B' },
+         ] }
+    ];
+
+    /* ───────── متن‌های نوار متحرک (زیر بخش هیرو) — فقط شما اینجا را ویرایش می‌کنید ─────────
+       برای افزودن متن یک خط جدید کپی کنید، برای حذف یک خط را پاک کنید. هر متن دو زبانه است. */
+    const BAND_TEXTS = [                                              // ⚠️ هر خط باید با ویرگول تمام شود؛ فراموش کردن ویرگول کل اسکریپت و صفحه را خراب می‌کند
+      { fa: 'Photoshop', en: 'Photoshop' },                   // متن اول نوار
+      { fa: 'Illustrator', en: 'Illustrator' },                              // متن دوم نوار
+      { fa: 'Premier Pro', en: 'Premier Pro' },                    // متن سوم نوار
+      { fa: 'Corel Draw', en: 'Corel Draw' },               // متن چهارم نوار (⚠️ بعد از هر خط حتماً ویرگول «,» بماند، حتی بعد از آخرین خط)
+      {fa: 'Blender', en: 'Blender' },
+      { fa: 'HTML', en: 'HTML' },
+      { fa: 'Python', en: 'Python' },
+      
+    ];
+
+    /* ───────── ۴) شبکه‌های اجتماعی ───────── */
+    const ICONS = {                                                   // آیکون‌ها (محتوای داخلی SVG)
+      telegram: '<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/>',                                               // پرنده کاغذی تلگرام
+      instagram: '<rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.4A4 4 0 1 1 12.6 8 4 4 0 0 1 16 11.4z"/><path d="M17.5 6.5h.01"/>', // دوربین اینستاگرام
+      eitaa: '<path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20.5l1.6-5A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.5 12.5c1.5 1.8 3.6 2 5.5.5M15 8.5l-.5 2.5"/>', // آیکون ساده جایگزین ایتا (برای لوگوی رسمی، مسیر path را عوض کنید)
+      out: '<path d="M7 17L17 7M9 7h8v8"/>'                                                                                   // فلش لینک خارجی
+    };
+    const SOCIALS = [                                                 // آرایه شبکه‌ها؛ آدرس‌ها و آی‌دی را عوض کنید
+      { key: 'telegram',  name: { fa: 'تلگرام',    en: 'Telegram' },  handle: '@Vafagraphy', url: 'https://t.me/Vafagraphy' },        // تلگرام
+      { key: 'instagram', name: { fa: 'اینستاگرام', en: 'Instagram' }, handle: '@Vafagraphy82', url: 'https://instagram.com/vafagraphy82' }, // اینستاگرام
+      { key: 'eitaa',     name: { fa: 'ایتا',      en: 'Eitaa' },     handle: '@Vafagraphy', url: 'https://eitaa.com/Vafagraphy' }     // ایتا
+    ];
+
+    /* ───────── ۵) متن‌های رابط که با جاوااسکریپت ساخته می‌شوند ───────── */
+    const UI = {                                                      // دیکشنری دو زبانه
+      fa: {
+        title: 'امیرحسین وفادار مقدم',                                  // عنوان تب مرورگر
+        langBtn: 'EN', langAria: 'تغییر زبان به انگلیسی',              // برچسب و توضیح دکمه زبان
+        toLight: 'تغییر به تم روشن', toDark: 'تغییر به تم تیره',        // توضیح دکمه تم
+        notes: 'یادداشت‌های پروژه', mesh: 'نمای مش', hint: 'نشانگر را ببرید یا مش را روشن کنید', // دکمه‌ها و راهنما
+        vector: 'فایل وکتور', finished: 'محصول نهایی', view: 'مشاهده پروژه', cta: 'درباره پروژه‌ای مشابه صحبت کنیم', // برچسب‌ها
+        count: (n, t, c) => 'نمایش ' + n.toLocaleString('fa-IR') + ' از ' + t.toLocaleString('fa-IR') + ' پروژه نمونه — ' + c, // متن تعداد
+        copied: 'نشانی در کلیپ‌بورد کپی شد.', copyFail: 'کپی در اینجا مسدود است — نشانی را دستی انتخاب و کپی کنید.', // پیام کپی
+        dl: 'رزومه نمونه دانلود شد — فایل واقعی خود را جایگزین کنید.', dlFail: 'دانلود در این پیش‌نمایش مسدود است.', // پیام دانلود
+        resume: ['رزومه — نام شما (نمونه)', '', 'این فایل را با رزومه واقعی خود (ترجیحاً PDF) جایگزین کنید.', '', 'نقش: [نقش شما]', 'ایمیل: ' + SITE.email] // متن فایل رزومه
+      },
+      en: {
+        title: 'Portfolio — Your Name',
+        langBtn: 'فا', langAria: 'Switch language to Persian',
+        toLight: 'Switch to light theme', toDark: 'Switch to dark theme',
+        notes: 'Case notes', mesh: 'Mesh view', hint: 'Hover or toggle mesh',
+        vector: 'Vector file', finished: 'Finished piece', view: 'View project', cta: 'Discuss a similar project',
+        count: (n, t, c) => 'Showing ' + n + ' of ' + t + ' sample projects — ' + c,
+        copied: 'Copied the address to your clipboard.', copyFail: 'Copy is blocked here — select the address and copy it manually.',
+        dl: 'Downloaded a placeholder resume — swap in your own file.', dlFail: 'Downloads are blocked in this preview.',
+        resume: ['YOUR NAME — RESUME (PLACEHOLDER)', '', 'Replace this file with your real resume (PDF recommended).', '', 'Role: [YOUR ROLE]', 'Email: ' + SITE.email]
+      }
+    };
+
+
+    /* ───────── ۷) وضعیت برنامه و ابزارهای کمکی ───────── */
+    const state = { lang: SITE.defaultLang, theme: 'light', filter: 'all', open: new Set(), wire: new Set() }; // وضعیت فعلی: زبان، تم، فیلتر، کارت‌های بازشده و مش‌های روشن
+    const $ = (id) => document.getElementById(id);                     // میان‌بر برای گرفتن المان با id
+    const root = document.documentElement;                             // المان <html>
+    const store = {                                                    // ذخیره امن در مرورگر (localStorage)
+      get: (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } },          // خواندن؛ اگر مسدود بود null
+      set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* ذخیره‌سازی در دسترس نیست */ } } // نوشتن؛ خطا نادیده گرفته می‌شود
+    };
+    const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); // جلوگیری از شکستن HTML با کاراکترهای خاص
+    const pick = (o) => (o && (o[state.lang] != null ? o[state.lang] : o.fa)) || '';  // متن زبان فعلی را از آبجکت {fa,en} برمی‌دارد
+    const flip = (set, id) => (set.has(id) ? (set.delete(id), false) : (set.add(id), true)); // اضافه/حذف از مجموعه و برگرداندن وضعیت جدید
+    const svg = (inner, cls) => `<svg class="ic ${cls || ''}" viewBox="0 0 24 24" aria-hidden="true">${inner}</svg>`; // ساخت آیکون SVG
+
+    /* ───────── ۸) ساخت بخش‌های پویا ───────── */
+    function renderFilters() {                                         // ساخت دکمه‌های فیلتر
+      $('filters').setAttribute('aria-label', state.lang === 'fa' ? 'فیلتر پروژه‌ها بر اساس دسته' : 'Filter projects by category'); // توضیح دسترس‌پذیری گروه
+      $('filters').innerHTML = CATEGORIES.map((c, i) =>                // برای هر دسته یک دکمه
+        `<button class="chip" type="button" data-key="${c.key}" aria-pressed="${state.filter === c.key}"><span class="k">0${i}</span>${esc(pick(c))}</button>`).join(''); // شماره + نام دسته
+    }
+    function renderDiscs() {                                           // ساخت لیست رشته‌ها در هیرو (بدون «همه»)
+      $('disc-list').innerHTML = CATEGORIES.slice(1).map((c, i) =>     // از دسته دوم به بعد
+        `<li><a class="disc" href="#projects" data-key="${c.key}"><span class="n">0${i + 1}</span><span class="t">${esc(pick(c))}</span><span class="a arr" aria-hidden="true">→</span></a></li>`).join(''); // شماره، نام و فلش
+    }
+    function renderBand() {                                            // ساخت نوار متحرک
+      const names = BAND_TEXTS.map(pick);                     // نام دسته‌ها در زبان فعلی
+      const one = names.concat(names).map((n) => `<span class="band-item">${esc(n)}</span><span class="band-dot"></span>`).join(''); // دو بار تکرار برای پر شدن عرض
+      $('band-track').innerHTML = `<div class="band-set">${one}</div><div class="band-set">${one}</div>`;
+      $('band-track').style.animationDuration = Math.max(20, names.length * 10) + 's'; // سرعت متناسب با تعداد متن‌ها: هر چه متن بیشتر، مدت بیشتر (سرعت ثابت می‌ماند) // دو دسته برابر برای حلقه بی‌انتها
+    }
+    function renderSocial() {                                          // ساخت لینک‌های شبکه اجتماعی در بخش تماس و فوتر
+      $('social-list').innerHTML = SOCIALS.map((s) =>                  // ردیف‌های بخش تماس
+        `<li><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer"><span class="s-main">${svg(ICONS[s.key])}<span>${esc(pick(s.name))}<small>${esc(s.handle)}</small></span></span>${svg(ICONS.out, 'flip')}</a></li>`).join(''); // آیکون + نام + آی‌دی + فلش
+      $('foot-social').innerHTML = SOCIALS.map((s) =>                  // آیکون‌های گرد فوتر
+        `<a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer" aria-label="${esc(pick(s.name))}">${svg(ICONS[s.key])}</a>`).join(''); // فقط آیکون
+    }
+    /* ───────── ۸) نمایش پروژه‌ها: کارت‌ها + پنجره جزئیات ───────── */
+    Object.assign(UI.fa, {                                             // متن‌های فارسی بخش پروژه‌ها
+      close: 'بستن', prev: 'قبلی', next: 'بعدی', prevP: 'پروژه قبلی', nextP: 'پروژه بعدی', slider: 'لغزنده مقایسه قبل و بعد', // دکمه‌ها
+      drag3d: 'برای چرخاندن بکشید • با اسکرول یا دو انگشت زوم کنید', mvFail: 'نمایش مدل ممکن نشد. اتصال اینترنت و مسیر فایل مدل را بررسی کنید (و فایل را روی هاست یا لوکال‌هاست باز کنید).', // سه‌بعدی
+      empty: '[رسانه‌ای برای این پروژه هنوز اضافه نشده]', codeNote: 'برای دیدن این پروژه از دکمه‌های لینک استفاده کنید.', none: 'پروژه‌ای در این دسته نیست.', // خالی
+      before: 'قبل', after: 'بعد', role: 'نقش', client: 'کارفرما', year: 'سال', tools: 'ابزار', demo: 'نسخه زنده', repo: 'کد منبع', sample: 'نمونه', // برچسب‌ها
+      types: { images: 'تصویر', video: 'ویدیو', model3d: 'سه‌بعدی', compare: 'قبل / بعد', laser: 'برش لیزری', code: 'نرم‌افزار', embed: 'نمایش زنده' }, // نام نوع‌ها
+      count: (n, t, c) => 'نمایش ' + n.toLocaleString('fa-IR') + ' از ' + t.toLocaleString('fa-IR') + ' پروژه — ' + c // متن تعداد
+    });
+    Object.assign(UI.en, {                                             // متن‌های انگلیسی
+      close: 'Close', prev: 'Previous', next: 'Next', prevP: 'Previous project', nextP: 'Next project', slider: 'Before / after comparison slider',
+      drag3d: 'Drag to rotate • scroll or pinch to zoom', mvFail: 'Could not show the model. Check your connection and the model path (and open the site from a host or localhost).',
+      empty: '[No media has been added to this project yet]', codeNote: 'Use the link buttons to see this project.', none: 'No projects in this category.',
+      before: 'Before', after: 'After', role: 'Role', client: 'Client', year: 'Year', tools: 'Tools', demo: 'Live demo', repo: 'Source code', sample: 'Sample',
+      types: { images: 'Images', video: 'Video', model3d: '3D', compare: 'Before / After', laser: 'Laser cut', code: 'Software', embed: 'Live view' },
+      count: (n, t, c) => 'Showing ' + n + ' of ' + t + ' projects — ' + c
+    });
+    const TICON = {                                                    // آیکون هر نوع پروژه
+      images: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/>', // عکس
+      video: '<rect x="3" y="5" width="14" height="14" rx="2"/><path d="M17 10l4-2.5v9L17 14"/>',                         // ویدیو
+      model3d: '<path d="M12 2.5l8.5 4.8v9.4L12 21.5l-8.5-4.8V7.3z"/><path d="M12 12l8.5-4.7M12 12v9.5M12 12L3.5 7.3"/>', // مکعب
+      compare: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16M8 10l-2 2 2 2M16 10l2 2-2 2"/>',        // قبل/بعد
+      code: '<path d="M8 8l-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/>',                                                         // کد
+      embed: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/>',                                      // پنجره مرورگر
+      play: '<path d="M8 5l11 7-11 7z"/>', x: '<path d="M6 6l12 12M18 6L6 18"/>', chev: '<path d="M9 6l6 6-6 6"/>'          // پخش، بستن، فلش
+    };
+    TICON.laser = TICON.compare;                                       // لیزر هم آیکون قبل/بعد دارد
+    const src = (p) => (/^(https?:)?\/\/|^\/|^data:|^blob:/.test(p) ? p : MEDIA_DIR + p); // مسیر کوتاه فایل را کامل می‌کند
+    const txt = (it, k) => { const fa = it[k + 'Fa'], en = it[k + 'En']; return state.lang === 'en' ? (en || fa || '') : (fa || en || ''); }; // متن زبان فعلی (با جایگزین)
+    const tagsOf = (it) => (state.lang === 'en' && it.tagsEn && it.tagsEn.length ? it.tagsEn : (it.tags || [])); // برچسب‌های زبان فعلی
+    const num = (n) => n.toLocaleString(state.lang === 'fa' ? 'fa-IR' : 'en'); // عدد با ارقام زبان فعلی
+    const typeOf = (it) => (TYPES.indexOf(it.type) > -1 ? it.type : 'images'); // نوع معتبر پروژه
+    const visibleList = () => PORTFOLIO_ITEMS.filter((it) => state.filter === 'all' || it.category === state.filter); // پروژه‌های دسته فعال
+    const coverOf = (it) => it.cover || it.poster || (it.images && it.images[0]) || it.after || it.before || ''; // عکس کارت
+
+    function toEmbed(u) {                                              // لینک یوتیوب/آپارات/ویمئو را به لینک قابل نمایش تبدیل می‌کند
+      let m;                                                           // نتیجه تطبیق
+      if ((m = u.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/)|youtu\.be\/)([\w-]{6,})/))) return 'https://www.youtube-nocookie.com/embed/' + m[1]; // یوتیوب
+      if ((m = u.match(/aparat\.com\/v\/(\w+)/))) return 'https://www.aparat.com/video/video/embed/videoid/' + m[1]; // آپارات
+      if (/aparat\.com\/video\/video\/embed/.test(u)) return u;        // لینک امبد آپارات
+      if ((m = u.match(/vimeo\.com\/(\d+)/))) return 'https://player.vimeo.com/video/' + m[1]; // ویمئو
+      return null;                                                     // وگرنه فایل ویدیویی معمولی است
+    }
+    function checkItems() {                                            // هشدار خطاهای فرم پروژه‌ها در کنسول (F12)
+      const seen = {};                                                 // شناسه‌های دیده‌شده
+      PORTFOLIO_ITEMS.forEach((it, i) => {                             // برای هر پروژه
+        const w = (m) => console.warn('[PORTFOLIO_ITEMS #' + (i + 1) + (it.id ? ' ' + it.id : '') + '] ' + m); // چاپ هشدار
+        if (!it.id) w('id is missing / شناسه (id) ندارد'); else if (seen[it.id]) w('duplicate id / شناسه تکراری است'); seen[it.id] = 1; // شناسه
+        if (TYPES.indexOf(it.type) < 0) w('invalid type / نوع (type) نامعتبر است: ' + it.type); // نوع
+        if (!CATEGORIES.some((c) => c.key === it.category && c.key !== 'all')) w('invalid category / دسته (category) نامعتبر است: ' + it.category); // دسته
+        if (!it.titleFa && !it.titleEn) w('title is missing / عنوان ندارد'); // عنوان
+        const need = { images: 'images', video: 'video', model3d: 'model', embed: 'embed' }[it.type]; // فیلد اجباری هر نوع
+        if (need && !(it[need] && it[need].length) && !it.sample) w('field "' + need + '" is empty / فیلد ' + need + ' خالی است'); // رسانه
+      });
+    }
+    function cardHTML(it, i) {                                         // ساخت کارت یک پروژه
+      const T = UI[state.lang], t = typeOf(it), title = txt(it, 'title'); // متن‌ها، نوع و عنوان
+      const ci = Math.max(1, CATEGORIES.findIndex((c) => c.key === it.category)); // شماره دسته
+      const cv = coverOf(it);                                          // عکس کارت
+      let cover;                                                       // محتوای قاب عکس
+      if (cv) cover = `<img src="${esc(src(cv))}" alt="${esc(title)}" loading="lazy">`; // عکس واقعی
+      else if (t === 'video' && it.video && !toEmbed(it.video)) cover = `<video src="${esc(src(it.video))}#t=0.6" preload="metadata" muted playsinline></video>`; // فریم اول ویدیو
+      else cover = `<div class="pc-ph">${svg(TICON[t])}<span>${esc(T.types[t])}</span></div>`; // جای‌نگهدار رنگی
+      return `<article class="pcard t-${t}${it.featured ? ' feat' : ''}" style="animation-delay:${Math.min(i, 6) * 60}ms">
+        <button class="pc-open" type="button" data-open="${esc(it.id)}" aria-label="${esc(title)}"></button>
+        <div class="pc-cover">${cover}${t === 'video' ? `<div class="pc-play"><span>${svg(TICON.play)}</span></div>` : ''}
+          <span class="pc-type">${svg(TICON[t])}${esc(T.types[t])}</span>${it.sample ? `<span class="pc-sample">${T.sample}</span>` : ''}</div>
+        <div class="pc-body"><p class="kind"><span>0${ci}</span> ${esc(pick(CATEGORIES[ci]))}</p>
+          <h3>${esc(title)}</h3><p class="desc">${esc(txt(it, 'desc'))}</p>
+          <div class="tags">${tagsOf(it).map((x) => `<span class="tag">${esc(x)}</span>`).join('')}</div></div></article>`; // قالب کارت
+    }
+    function renderProjects() {                                        // رسم کارت‌ها بر اساس فیلتر
+      const list = visibleList();                                      // پروژه‌های قابل نمایش
+      $('grid').innerHTML = list.length ? list.map((it, i) => { try { return cardHTML(it, i); } catch (e) { console.error('Project error:', it && it.id, e); return ''; } }).join('') : `<p class="count">${UI[state.lang].none}</p>`; // یک پروژه خراب بقیه را خراب نمی‌کند
+      $('count').textContent = UI[state.lang].count(list.length, PORTFOLIO_ITEMS.length, pick(CATEGORIES.find((c) => c.key === state.filter)).toLowerCase()); // متن تعداد
+    }
+
+    /* ───── نمایشگرهای مخصوص هر نوع ───── */
+    function galleryHTML(list, alt) {                                  // گالری عکس با تصاویر کوچک
+      const a = list.map(src);                                         // مسیر کامل عکس‌ها
+      return `<div class="gal" data-i="0"><div class="gal-main"><img src="${esc(a[0])}" alt="${esc(alt)}">` +
+        (a.length > 1 ? `<button class="gal-btn prev" type="button" data-gd="-1" aria-label="${UI[state.lang].prev}">${svg(TICON.chev)}</button><button class="gal-btn next" type="button" data-gd="1" aria-label="${UI[state.lang].next}">${svg(TICON.chev)}</button><span class="gal-count">${num(1)} / ${num(a.length)}</span>` : '') + `</div>` +
+        (a.length > 1 ? `<div class="gal-thumbs">${a.map((s, k) => `<button type="button" data-g="${k}" data-src="${esc(s)}" class="${k ? '' : 'on'}" aria-label="${num(k + 1)}"><img src="${esc(s)}" alt="" loading="lazy"></button>`).join('')}</div>` : '') + `</div>`; // دکمه‌ها و تصاویر کوچک فقط وقتی بیش از یک عکس باشد
+    }
+    function viewerHTML(it) {                                          // نمایشگر مناسب نوع پروژه
+      const T = UI[state.lang], t = typeOf(it), title = esc(txt(it, 'title')); // متن‌ها
+      const empty = `<div class="m-empty">${svg(TICON[t])}<p>${T.empty}</p></div>`; // حالت بدون رسانه
+      if (t === 'images') return it.images && it.images.length ? galleryHTML(it.images, title) : empty; // گالری
+      if (t === 'video') {                                             // ویدیو
+        if (!it.video) return empty;                                   // بدون ویدیو
+        const e = toEmbed(it.video);                                   // آیا لینک یوتیوب/آپارات است؟
+        return e ? `<iframe class="vid" src="${esc(e)}" title="${title}" allow="fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>` // پخش‌کننده سایت
+                 : `<video class="vid" controls playsinline preload="metadata" ${it.poster ? `poster="${esc(src(it.poster))}"` : ''} src="${esc(src(it.video))}"></video>`; // پخش‌کننده فایل
+      }
+      if (t === 'model3d') return it.model ? `<div class="mv"><model-viewer src="${esc(src(it.model))}" ${it.poster ? `poster="${esc(src(it.poster))}"` : ''} alt="${title}" camera-controls auto-rotate auto-rotate-delay="1200" touch-action="pan-y" shadow-intensity="1" exposure="1" environment-image="neutral"></model-viewer><p class="mv-hint">${T.drag3d}</p><p class="mv-fail" hidden>${T.mvFail}</p></div>` : empty; // مدل چرخان
+      if (t === 'compare' || t === 'laser') {                          // قبل / بعد
+        if (!it.before && !it.after) return empty;                     // بدون عکس
+        if (!it.before || !it.after) return galleryHTML([it.before || it.after], title); // فقط یک عکس
+        const lab = t === 'laser' ? [T.vector, T.finished] : [T.before, T.after]; // برچسب‌ها
+        return `<div class="cmp"><img class="cmp-a" src="${esc(src(it.after))}" alt="${title}"><img class="cmp-b" src="${esc(src(it.before))}" alt=""><span class="cmp-lab">${lab[0]}</span><span class="cmp-lab r">${lab[1]}</span><span class="cmp-line"></span><input type="range" min="0" max="100" value="50" aria-label="${T.slider}"></div>`; // اسلایدر
+      }
+      if (t === 'embed') return it.embed ? `<iframe class="vid" style="aspect-ratio:${esc(it.ratio || '16/9')}" src="${esc(it.embed)}" title="${title}" allowfullscreen loading="lazy"></iframe>` : empty; // نمایش زنده
+      let h = '';                                                      // نوع code: گالری و/یا تکه کد
+      if (it.images && it.images.length) h += galleryHTML(it.images, title); // اسکرین‌شات‌ها
+      if (it.snippet) h += `<div class="win"><div class="win-bar"><i></i><i></i><i></i><span>${esc(it.file || 'snippet')}</span></div><pre class="code"><code>${String(it.snippet).replace(/\t/g, '  ').split('\n').map((l) => `<span class="cl">${esc(l) || ' '}</span>`).join('')}</code></pre></div>`; // پنجره کد
+      return h || `<div class="m-empty">${svg(TICON.code)}<p>${T.codeNote}</p></div>`; // اگر هیچ‌کدام نبود
+    }
+    function infoHTML(it, idx, n) {                                    // ستون اطلاعات پنجره
+      const T = UI[state.lang], ci = Math.max(1, CATEGORIES.findIndex((c) => c.key === it.category)); // متن‌ها و دسته
+      const det = [[T.role, txt(it, 'role')], [T.client, txt(it, 'client')], [T.year, it.year], [T.tools, it.tools]].filter((d) => d[1]); // فقط اطلاعات پرشده
+      const links = [[it.url, T.view, 'btn-primary'], [it.demo, T.demo, ''], [it.repo, T.repo, '']].filter((l) => l[0]); // فقط لینک‌های پرشده
+      return `<p class="kind"><span>0${ci}</span> ${esc(pick(CATEGORIES[ci]))} · <span dir="ltr">${num(idx + 1)} / ${num(n)}</span></p>
+        <h2 id="m-title">${esc(txt(it, 'title'))}</h2><p class="desc">${esc(txt(it, 'desc'))}</p>
+        <div class="tags">${tagsOf(it).map((x) => `<span class="tag">${esc(x)}</span>`).join('')}</div>
+        ${det.length ? `<dl class="m-det">${det.map((d) => `<dt>${esc(d[0])}</dt><dd>${esc(d[1])}</dd>`).join('')}</dl>` : ''}
+        <div class="m-links">${links.map((l) => `<a class="btn ${l[2]}" href="${esc(l[0])}" target="_blank" rel="noopener noreferrer">${esc(l[1])} ${svg(ICONS.out, 'flip')}</a>`).join('')}<a class="btn" href="#contact" data-close>${esc(it.ctaFa || T.cta)} <span class="arr">→</span></a></div>
+        <div class="m-nav"><button class="btn" type="button" data-pn="-1">${T.prevP}</button><button class="btn" type="button" data-pn="1">${T.nextP}</button></div>`; // قالب اطلاعات
+    }
+
+    /* ───── باز و بسته کردن پنجره ───── */
+    const modal = { id: null, last: null };                            // وضعیت پنجره: پروژه باز و عنصر فوکوس قبلی
+    let mvPromise = null;                                              // وعده بارگذاری کتابخانه سه‌بعدی
+    function loadMV() {                                                // بارگذاری کتابخانه model-viewer فقط وقتی لازم شد
+      if (!mvPromise) mvPromise = new Promise((ok, no) => {            // یک بار ساخته می‌شود
+        if (window.customElements && customElements.get('model-viewer')) return ok(); // قبلاً بارگذاری شده
+        const s = document.createElement('script'); s.type = 'module'; s.src = MODEL_VIEWER_SRC; // تگ اسکریپت
+        s.onload = ok; s.onerror = no; document.head.appendChild(s);  // موفقیت یا خطا
+        setTimeout(no, 15000);                                         // اگر ۱۵ ثانیه طول کشید خطا
+      }).catch((e) => { mvPromise = null; throw e; });                 // بعد از خطا اجازه تلاش دوباره
+      return mvPromise;                                                // برگرداندن وعده
+    }
+    function openProject(id) {                                         // باز کردن پروژه
+      const list = visibleList(), idx = list.findIndex((x) => x.id === id), it = list[idx]; // پروژه و جایگاهش
+      if (!it) return;                                                 // پیدا نشد
+      const box = $('m-box'), el = $('modal');                         // عناصر پنجره
+      modal.id = id;                                                   // ثبت پروژه باز
+      $('m-view').innerHTML = viewerHTML(it);                          // نمایشگر
+      $('m-info').innerHTML = infoHTML(it, idx, list.length);          // اطلاعات
+      if (el.hidden) { modal.last = document.activeElement; el.hidden = false; document.body.style.overflow = 'hidden'; } // اولین باز شدن: قفل اسکرول صفحه
+      box.scrollTop = 0; box.focus();                                  // بالای پنجره و فوکوس
+      if (typeOf(it) === 'model3d' && it.model) {                      // نوع سه‌بعدی
+        const mv = $('m-view').querySelector('model-viewer'), fail = () => { const f = $('m-view').querySelector('.mv-fail'); if (f) f.hidden = false; }; // نمایش خطا
+        if (mv) mv.addEventListener('error', fail);                    // خطای فایل مدل
+        loadMV().catch(fail);                                          // خطای بارگذاری کتابخانه
+      }
+    }
+    function closeProject() {                                          // بستن پنجره
+      const el = $('modal'); if (el.hidden) return;                    // اگر باز نبود
+      el.hidden = true; $('m-view').innerHTML = ''; modal.id = null;   // پاک کردن محتوا (ویدیو و مدل متوقف می‌شوند)
+      document.body.style.overflow = '';                               // آزاد کردن اسکرول
+      if (modal.last && modal.last.focus) modal.last.focus();          // برگرداندن فوکوس
+    }
+    function refreshModal() { if (modal.id && !$('modal').hidden) openProject(modal.id); } // با تغییر زبان، پنجره باز دوباره ساخته شود
+    function galSet(g, i) {                                            // رفتن به عکس شماره i در گالری
+      const th = [].slice.call(g.querySelectorAll('[data-g]')), n = th.length; if (!n) return; // تصاویر کوچک
+      i = (i + n) % n; g.dataset.i = i;                                // چرخشی
+      g.querySelector('.gal-main img').src = th[i].dataset.src;        // عکس بزرگ
+      th.forEach((b, k) => b.classList.toggle('on', k === i));         // علامت انتخاب
+      const c = g.querySelector('.gal-count'); if (c) c.textContent = num(i + 1) + ' / ' + num(n); // شماره
+      th[i].scrollIntoView({ block: 'nearest', inline: 'nearest' });   // دیده شدن تصویر کوچک
+    }
+
+    /* ───────── ۹) اعمال زبان و تم ───────── */
+    function renderSkills() {                                          // ساخت نوار مهارت‌ها از آرایه SKILLS
+      $('skills').innerHTML = SKILLS.map((g, gi) =>                    // برای هر دسته مهارت
+        `<div><h3><span>${esc(pick(g.title))}</span><span>0${gi + 1}</span></h3><ul>` + g.items.map((it) => { // عنوان دسته + شماره
+          const lv = Math.max(0, Math.min(100, Number(it.level) || 0)); // درصد را بین ۰ و ۱۰۰ نگه می‌دارد
+          const gold = lv >= 100;                                      // اگر ۱۰۰ بود حالت طلایی
+          return `<li class="${gold ? 'sk-gold' : ''}"><div class="sk-row"><span class="sk-name">${esc(pick(it.name))}</span><span class="sk-pct">${lv.toLocaleString(state.lang === 'fa' ? 'fa-IR' : 'en')}%</span></div>` + // نام + عدد درصد
+            `<div class="sk-track" role="progressbar" aria-valuenow="${lv}" aria-valuemin="0" aria-valuemax="100"><div class="sk-fill" data-w="${lv}" style="${it.color ? '--c:' + esc(it.color) : ''}">${gold ? '<i></i><i></i><i></i><i></i><i></i>' : ''}</div></div></li>`; // نوار + ذره‌های طلایی
+        }).join('') + '</ul></div>').join('');                        // بستن دسته و جایگذاری در صفحه
+      const fill = () => document.querySelectorAll('.sk-fill').forEach((f) => { f.style.width = f.dataset.w + '%'; }); // پر کردن نوارها تا درصد هدف
+      if ('IntersectionObserver' in window) {                          // اگر مرورگر پشتیبانی کند
+        const io = new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) { fill(); io.disconnect(); } }, { threshold: .2 }); // وقتی بخش دیده شد، انیمیشن پر شدن شروع شود
+        io.observe($('skills'));                                       // مشاهده بخش مهارت‌ها
+      } else { fill(); }                                               // مرورگر قدیمی: مستقیم پر شود
+    }
+    function applyLang() {                                             // تغییر کامل زبان صفحه
+      const L = state.lang, T = UI[L];                                 // زبان و متن‌های آن
+      root.lang = L;                                                   // ویژگی lang صفحه
+      root.dir = L === 'fa' ? 'rtl' : 'ltr';                           // جهت: فارسی راست‌به‌چپ، انگلیسی چپ‌به‌راست
+      document.title = T.title;                                        // عنوان تب
+      document.querySelectorAll('[data-fa]').forEach((el) => { el.innerHTML = el.getAttribute('data-' + L); }); // همه متن‌های ثابت صفحه
+      document.querySelectorAll('[data-fa-label]').forEach((el) => { el.setAttribute('aria-label', el.getAttribute('data-' + L + '-label')); }); // aria-label های دو زبانه
+      $('lang-label').textContent = T.langBtn;                         // برچسب دکمه زبان
+      $('lang-btn').setAttribute('aria-label', T.langAria);            // توضیح دکمه زبان
+      $('theme-btn').setAttribute('aria-label', state.theme === 'dark' ? T.toLight : T.toDark); // توضیح دکمه تم
+      renderFilters(); renderDiscs(); renderBand(); renderSocial(); renderSkills(); renderProjects(); refreshModal(); // بازسازی بخش‌های پویا
+      $('status').textContent = '';                                    // پیام وضعیت قبلی پاک شود
+    }
+    function applyTheme() {                                            // اعمال تم
+      root.setAttribute('data-theme', state.theme);                    // ویژگی data-theme که CSS از آن استفاده می‌کند
+      $('theme-btn').setAttribute('aria-label', state.theme === 'dark' ? UI[state.lang].toLight : UI[state.lang].toDark); // به‌روزرسانی توضیح دکمه
+    }
+
+    /* ───────── ۱۰) رویدادها ───────── */
+    $('lang-btn').addEventListener('click', () => {                    // کلیک روی دکمه زبان
+      state.lang = state.lang === 'fa' ? 'en' : 'fa';                  // جابه‌جایی بین فارسی و انگلیسی
+      store.set('portfolio-lang', state.lang);                         // ذخیره انتخاب بازدیدکننده
+      applyLang();                                                     // اعمال زبان جدید
+    });
+    $('theme-btn').addEventListener('click', () => {                   // کلیک روی دکمه تم
+      state.theme = state.theme === 'dark' ? 'light' : 'dark';         // جابه‌جایی تیره/روشن
+      store.set('portfolio-theme', state.theme);                       // ذخیره انتخاب
+      applyTheme();                                                    // اعمال تم
+    });
+    $('menu-btn').addEventListener('click', () => {                    // کلیک روی دکمه منوی موبایل
+      const open = $('site-nav').getAttribute('data-open') !== 'true'; // وضعیت جدید
+      $('site-nav').setAttribute('data-open', open);                   // نمایش/مخفی کردن منو
+      $('menu-btn').setAttribute('aria-expanded', open);               // به‌روزرسانی دسترس‌پذیری
+    });
+    $('site-nav').addEventListener('click', (e) => {                   // کلیک روی لینک‌های منو
+      if (e.target.closest('a')) { $('site-nav').setAttribute('data-open', 'false'); $('menu-btn').setAttribute('aria-expanded', 'false'); } // منو بسته شود
+    });
+    $('filters').addEventListener('click', (e) => {                    // کلیک روی دکمه‌های فیلتر (event delegation)
+      const b = e.target.closest('.chip'); if (!b) return;            // اگر روی دکمه نبود، خروج
+      state.filter = b.dataset.key; renderFilters(); renderProjects(); // تنظیم فیلتر و رسم دوباره
+    });
+    $('disc-list').addEventListener('click', (e) => {                  // کلیک روی رشته‌ها در هیرو
+      const a = e.target.closest('.disc'); if (!a) return;            // اگر روی لینک نبود، خروج
+      state.filter = a.dataset.key; renderFilters(); renderProjects(); // همان فیلتر را اعمال کن (اسکرول را خود لینک انجام می‌دهد)
+    });
+    $('grid').addEventListener('click', (e) => {                       // کلیک روی کارت‌ها
+      const b = e.target.closest('[data-open]'); if (b) openProject(b.dataset.open); // باز کردن پروژه
+    });
+    $('modal').addEventListener('click', (e) => {                      // کلیک‌ها داخل پنجره (event delegation)
+      if (e.target.closest('[data-close]')) { closeProject(); return; } // دکمه بستن، پرده یا لینک تماس
+      const pn = e.target.closest('[data-pn]');                        // قبلی/بعدی پروژه
+      if (pn) { const l = visibleList(), i = l.findIndex((x) => x.id === modal.id); if (l.length) openProject(l[(i + Number(pn.dataset.pn) + l.length) % l.length].id); return; } // چرخشی
+      const g = e.target.closest('.gal'); if (!g) return;              // کلیک داخل گالری؟
+      const th = e.target.closest('[data-g]'), gd = e.target.closest('[data-gd]'); // تصویر کوچک یا فلش
+      if (th) galSet(g, Number(th.dataset.g)); else if (gd) galSet(g, Number(g.dataset.i) + Number(gd.dataset.gd)); // تغییر عکس
+    });
+    $('modal').addEventListener('input', (e) => {                      // حرکت لغزنده قبل/بعد
+      const c = e.target.closest('.cmp'); if (c) c.style.setProperty('--p', e.target.value + '%'); // موقعیت خط جداکننده
+    });
+    document.addEventListener('keydown', (e) => {                      // کلیدهای کیبورد
+      const el = $('modal'); if (el.hidden) return;                    // فقط وقتی پنجره باز است
+      if (e.key === 'Escape') { closeProject(); return; }              // Esc = بستن
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const g = $('m-view').querySelector('.gal'); if (g) galSet(g, Number(g.dataset.i) + (e.key === 'ArrowRight' ? 1 : -1)); } // فلش‌ها = تغییر عکس
+      if (e.key === 'Tab') {                                           // نگه داشتن فوکوس داخل پنجره
+        const f = [].slice.call(el.querySelectorAll('button, a[href], input, iframe, video[controls]')).filter((x) => !x.disabled && x.offsetParent !== null); // عناصر قابل فوکوس
+        if (!f.length) return;                                         // اگر چیزی نبود
+        if (e.shiftKey && document.activeElement === f[0]) { f[f.length - 1].focus(); e.preventDefault(); } // از اولی به آخری
+        else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { f[0].focus(); e.preventDefault(); } // از آخری به اولی
+      }
+    });
+    checkItems();                                                      // بررسی فرم پروژه‌ها و هشدار در کنسول
+    $('copy-btn').addEventListener('click', () => {                    // کپی ایمیل
+      const T = UI[state.lang];                                        // متن‌ها
+      try { navigator.clipboard.writeText(SITE.email).then(() => { $('status').textContent = T.copied; }, () => { $('status').textContent = T.copyFail; }); } // اگر موفق بود پیام کپی
+      catch (e) { $('status').textContent = T.copyFail; }              // اگر مرورگر اجازه نداد پیام خطا
+    });
+    $('resume-btn').addEventListener('click', () => {                  // دانلود رزومه نمونه
+      const T = UI[state.lang];                                        // متن‌ها
+      try {
+        const url = URL.createObjectURL(new Blob(['\uFEFF' + T.resume.join('\n')], { type: 'text/plain;charset=utf-8' })); // ساخت فایل متنی موقت (BOM برای فارسی)
+        const a = document.createElement('a');                         // لینک موقت دانلود
+        a.href = url; a.download = 'resume-placeholder.txt';           // نام فایل دانلودی
+        document.body.appendChild(a); a.click(); a.remove();           // کلیک خودکار و پاک کردن لینک
+        setTimeout(() => URL.revokeObjectURL(url), 1500);              // آزاد کردن حافظه
+        $('status').textContent = T.dl;                                // پیام موفقیت
+      } catch (e) { $('status').textContent = T.dlFail; }              // پیام خطا
+      // برای رزومه واقعی: به‌جای این تابع، در HTML دکمه را به <a href="resume.pdf" download> تبدیل کنید
+    });
+
+    /* ───────── ۱۱) شروع برنامه ───────── */
+    $('mail-link').href = 'mailto:' + SITE.email;                      // لینک ایمیل بزرگ
+    $('mail-link').textContent = SITE.email;                           // متن ایمیل
+    $('mail-btn').href = 'mailto:' + SITE.email + '?subject=Project%20enquiry'; // دکمه ارسال ایمیل با موضوع آماده
+    const sl = store.get('portfolio-lang'), st = store.get('portfolio-theme'); // خواندن انتخاب‌های ذخیره‌شده
+    if (sl === 'fa' || sl === 'en') state.lang = sl;                   // اگر زبان ذخیره شده بود از آن استفاده کن
+    if (st === 'light' || st === 'dark') state.theme = st;             // اگر تم ذخیره شده بود از آن استفاده کن
+    applyTheme();                                                      // اعمال تم
+    applyLang();                                                       // اعمال زبان و ساخت کل صفحه
+  })();
+  /* ═════════ پایان جاوااسکریپت ═════════ */
+  </script>
+</body>
+</html>
